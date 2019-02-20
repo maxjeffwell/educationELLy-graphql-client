@@ -17,9 +17,8 @@ const Navigation = ({ session }) => (
 const NavigationAuth = () => (
   <ul>
     <li>
-      <Link to={routes.LANDING}>Landing</Link>
+      <Link to={routes.DASHBOARD}>Teacher Dashboard</Link>
     </li>
-      )}
     <li>
       <SignOutButton />
     </li>

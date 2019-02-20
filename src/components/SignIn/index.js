@@ -1,14 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { Form, Icon, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
-import { LabelInputField } from 'react-semantic-redux-form';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import * as routes from '../../constants/routes';
+import { Form, Icon, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
+import { LabelInputField } from 'react-semantic-redux-form';
+import styled from 'styled-components';
+
 import ErrorMessage from '../Error';
+import history from '../../constants/history';
+import * as routes from "../../constants/routes";
+
 
 export const StyledMessage = styled(Message)`
   &&& {
@@ -139,7 +142,7 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.DASHBOARD);
+      history.push(routes.DASHBOARD);
     });
 
     event.preventDefault();
@@ -162,7 +165,7 @@ class SignInForm extends Component {
               value={login}
               onChange={this.onChange}
               type="text"
-              placeholder="Email or Username"
+              placeholder="Email Address"
             />
             <Field
               name="password"
@@ -187,6 +190,6 @@ class SignInForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'signin' })(SignInPage);
+export default (reduxForm)({ form: 'signin' })(SignInPage);
 
 export { SignInForm };
