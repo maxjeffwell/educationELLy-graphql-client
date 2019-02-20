@@ -14,20 +14,11 @@ const Navigation = ({ session }) => (
   </div>
 );
 
-const NavigationAuth = ({ session }) => (
+const NavigationAuth = () => (
   <ul>
     <li>
       <Link to={routes.LANDING}>Landing</Link>
     </li>
-    <li>
-      <Link to={routes.ACCOUNT}>Account ({session.me.username})</Link>
-    </li>
-    {session &&
-      session.me &&
-      session.me.role === 'ADMIN' && (
-        <li>
-          <Link to={routes.ADMIN}>Admin</Link>
-        </li>
       )}
     <li>
       <SignOutButton />
