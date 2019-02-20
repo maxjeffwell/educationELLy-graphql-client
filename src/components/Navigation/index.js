@@ -22,9 +22,6 @@ const NavigationAuth = ({ session }) => (
     <li>
       <Link to={routes.ACCOUNT}>Account ({session.me.username})</Link>
     </li>
-    <li>
-      <Link to={routes.EDITOR}>Editor</Link>
-    </li>
     {session &&
       session.me &&
       session.me.role === 'ADMIN' && (
