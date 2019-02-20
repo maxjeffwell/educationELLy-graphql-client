@@ -15,10 +15,8 @@ const SIGN_UP = gql`
 `;
 
 const INITIAL_STATE = {
-  username: '',
   email: '',
-  password: '',
-  passwordConfirmation: '',
+  password: ''
 };
 
 const SignUpPage = ({ history, refetch }) => (
@@ -52,32 +50,21 @@ class SignUpForm extends Component {
 
   render() {
     const {
-      username,
       email,
-      password,
-      passwordConfirmation,
+      password
     } = this.state;
 
     const isInvalid =
-      password !== passwordConfirmation ||
       password === '' ||
-      email === '' ||
-      username === '';
+      email === '';
 
     return (
       <Mutation
         mutation={SIGN_UP}
-        variables={{ username, email, password }}
+        variables={{ email, password }}
       >
         {(signUp, { data, loading, error }) => (
           <form onSubmit={event => this.onSubmit(event, signUp)}>
-            <input
-              name="username"
-              value={username}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Full Name"
-            />
             <input
               name="email"
               value={email}
@@ -91,13 +78,6 @@ class SignUpForm extends Component {
               onChange={this.onChange}
               type="password"
               placeholder="Password"
-            />
-            <input
-              name="passwordConfirmation"
-              value={passwordConfirmation}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Confirm Password"
             />
             <button disabled={isInvalid || loading} type="submit">
               Sign Up
