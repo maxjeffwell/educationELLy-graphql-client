@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import { Provider } from 'react-redux';
+import {createStore, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk';
+
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
+
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import 'semantic-ui-css/components/button.css';
 import 'semantic-ui-css/components/container.css';
@@ -22,6 +30,7 @@ import 'semantic-ui-css/components/menu.css';
 import 'semantic-ui-css/components/input.css';
 import 'semantic-ui-css/components/sidebar.css';
 
+import reducers from './reducers';
 import App from './components/App';
 import { signOut } from './components/SignOut';
 
@@ -113,11 +122,19 @@ body {
 	}
 `;
 
+const store = createStore(
+  reducers,
+  { auth: { authenticated: localStorage.getItem('jwtToken')}},
+  composeWithDevTools(applyMiddleware(reduxThunk))
+);
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
   <ApolloProvider client={client}>
-    <App />
-    <GlobalStyle />
+    <Provider store={store}>
+      <App />
+      <GlobalStyle />
+    </Provider>
   </ApolloProvider>
   </ThemeProvider>,
   document.getElementById('root'),

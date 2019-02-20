@@ -5,6 +5,7 @@ import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
+import Dashboard from '../Dashboard';
 import withSession from '../Session/withSession';
 
 import * as routes from '../../constants/routes';
@@ -14,9 +15,6 @@ const App = ({ session, refetch }) => (
   <Router history={history}>
     <div>
       <Navigation session={session} />
-
-      <hr />
-
       <Route
         exact
         path={routes.LANDING}
@@ -31,6 +29,11 @@ const App = ({ session, refetch }) => (
         exact
         path={routes.SIGN_IN}
         component={() => <SignInPage refetch={refetch} />}
+      />
+      <Route
+        exact
+        path={routes.DASHBOARD}
+        component={() => <Dashboard />}
       />
     </div>
   </Router>
