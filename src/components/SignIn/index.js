@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { reduxForm, Field } from 'redux-form';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -9,9 +11,8 @@ import { LabelInputField } from 'react-semantic-redux-form';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
+import * as actions from '../../actions';
 import history from '../../constants/history';
-import * as routes from "../../constants/routes";
-
 
 export const StyledMessage = styled(Message)`
   &&& {
@@ -115,10 +116,9 @@ const SIGN_IN = gql`
 `;
 
 const SignInPage = ({ history, refetch }) => (
-  <div>
-    <h1>SignIn</h1>
+  <Fragment>
     <SignInForm history={history} refetch={refetch} />
-  </div>
+  </Fragment>
 );
 
 const INITIAL_STATE = {
@@ -142,54 +142,86 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      history.push(routes.DASHBOARD);
+      history.push('/dashboard');
     });
-
     event.preventDefault();
   };
 
   render() {
     const { login, password } = this.state;
 
-    const isInvalid = password === '' || login === '';
+    const isInvalid =
+       login === '' || password === '';
 
     return (
-      <Fragment>
       <Mutation mutation={SIGN_IN} variables={{ login, password }}>
         {(signIn, { data, loading, error }) => (
+
+          <div className="login">
+            <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
+              <Grid.Column style={{ maxWidth: 450 }}>
+
+                <StyledMessage info>
+                  Please log in with your account email and password. If you have neither registered
+                  nor been assigned account credentials, you are welcome to use the available demo account to log in.
+                </StyledMessage>
+
+                <StyledMessage info>
+                  DEMO ACCOUNT AVAILABLE
+                  <p>Email: demo</p>
+                  <p>Password: demopassword</p>
+                </StyledMessage>
+
+                  <StyledSegment stacked>
+                    <StyledHeader as="h1">educationELLy login</StyledHeader>
 
           <StyledForm onSubmit={event => this.onSubmit(event, signIn)}>
             <Field
               name="login"
               component={LabelInputField}
+              label={{ content: <Icon color="orange" name="user outline" size="large" /> }}
+              labelPosition="left"
               value={login}
               onChange={this.onChange}
               type="text"
-              placeholder="Email Address"
+              placeholder="Email or Username"
             />
             <Field
               name="password"
               component={LabelInputField}
+              label={{ content: <Icon color="orange" name="lock" size="large" /> }}
+              labelPosition="left"
               value={password}
               onChange={this.onChange}
               type="password"
               placeholder="Password"
             />
-            <button disabled={isInvalid || loading} type="submit">
-              Sign In
-            </button>
+
+            <Form.Field control={Button} disabled={isInvalid || loading} primary type="submit">
+            Sign In
+            </Form.Field>
 
             <StyledError>
-              {error && <ErrorMessage error={error} />}
+            {error && <ErrorMessage error={error}/>}
             </StyledError>
+
           </StyledForm>
+                  </StyledSegment>
+              </Grid.Column>
+            </Grid>
+          </div>
         )}
       </Mutation>
-      </Fragment>
     );
   }
 }
 
-export default (reduxForm)({ form: 'signin' })(SignInPage);
+const mapStateToProps = state => ({
+  errorMessage: state.auth.errorMessage,
+})
+
+export default compose (
+  connect(mapStateToProps, actions),(reduxForm)({ form: 'signin' }))(SignInPage);
 
 export { SignInForm };
+

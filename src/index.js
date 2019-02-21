@@ -12,8 +12,7 @@ import { Provider } from 'react-redux';
 import {createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import WebFont from 'webfontloader';
+import { ThemeProvider } from 'styled-components';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -32,17 +31,10 @@ import 'semantic-ui-css/components/sidebar.css';
 
 import reducers from './reducers';
 import App from './components/App';
-import { signOut } from './components/SignOut';
-
-WebFont.load({
-  google: {
-    families: ['Roboto: 400', 'sans-serif']
-  },
-  timeout: 2000
-});
+import Signout  from './components/SignOut';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql'
+  uri: process.env.REACT_APP_API_BASE_URL
 });
 
 const authLink = new ApolloLink((operation, forward) => {
@@ -65,7 +57,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       console.log('GraphQL error', message);
 
       if (message === 'You are not authenticated. Please sign in.') {
-        signOut(client);
+        Signout(client);
       }
     });
   }
@@ -74,7 +66,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     console.log('Network error', networkError);
 
     if (networkError.statusCode === 401) {
-      signOut(client);
+      Signout(client);
     }
   }
 });
@@ -96,32 +88,6 @@ const theme = {
   white: '#f5f5f5',
 };
 
-const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    src: url('https://fonts.googleapis.com/css?family=Roboto');
-  }
-
-html {
-  box-sizing: border-box;
-  font-size: 14px;
-  }
-
-*, *:before, *:after {
-		box-sizing: inherit; // then inherit box sizing on everything else
-	}
-	
-body {
-	padding: 0;
-	margin: 0;
-	font-size: 1.5rem;
-	line-height: 2;
-	font-family: Roboto, sans-serif;
-	}
-`;
-
 const store = createStore(
   reducers,
   { auth: { authenticated: localStorage.getItem('jwtToken')}},
@@ -133,7 +99,6 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
       <App />
-      <GlobalStyle />
     </Provider>
   </ApolloProvider>
   </ThemeProvider>,

@@ -3,6 +3,7 @@ import { Container, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import Footer from '../Footer';
+import SignOutButton from '../SignOut';
 
 const StyledContainer = styled(Container)`
   &&& {
@@ -53,6 +54,7 @@ const Landing = () => (
         enter the demo account information to access your student list and update student ELL information!</li>
       <li>To create an account, please click on the Register button in the right hand corner of the landing page. Using the demo account, you'll be able to access all of educationELLy's current features</li>
     </StyledParagraph>
+    <SignOutButton />
     <Footer />
   </StyledContainer>
 );

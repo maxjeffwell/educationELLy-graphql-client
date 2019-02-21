@@ -2,7 +2,6 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
-import * as routes from '../../constants/routes';
 import { GET_ME } from './queries';
 
 const withAuthorization = conditionFn => Component => props => (
@@ -15,7 +14,7 @@ const withAuthorization = conditionFn => Component => props => (
       return conditionFn(data) ? (
         <Component {...props} />
       ) : (
-        <Redirect to={routes.SIGN_IN} />
+        <Redirect to="/signin" />
       );
     }}
   </Query>

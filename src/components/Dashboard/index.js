@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Navigation from '../Navigation';
-import Landing from '../Landing';
 
-const Dashboard = ({ isToggled }) => (
+import Landing from '../Landing';
+// import Students from '../Students';
+// import AuthRequired from '../AuthRequired';
+
+const Dashboard = () => (
   <div id="dashboard">
-    <div id="main" className={isToggled ? 'toggled' : ''}>
-      <Navigation />
       <Switch>
         <Route exact path='/' component={Landing} />
+        {/*<Route exact path='/' component={Students} />*/}
       </Switch>
-    </div>
   </div>
 );
 
