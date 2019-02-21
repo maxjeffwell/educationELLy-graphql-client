@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import {API_BASE_URL} from "../config";
 import {FETCH_STUDENTS, AUTH_ERROR, AUTH_USER, SET_JWT_TOKEN, AUTH_SUCCESS, AUTH_REQUEST, CLEAR_AUTH} from "./types";
 import { normalizeResponseErrors } from './utils';
-import {clearJwtToken, saveJwtToken} from "../LocalStorage";
+import {clearJwtToken, saveJwtToken} from "../local-storage";
 
 export const signup = (formProps, callback) => async dispatch => {
   try {

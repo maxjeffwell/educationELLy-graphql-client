@@ -33,7 +33,7 @@ import 'semantic-ui-css/components/sidebar.css';
 import reducers from './reducers';
 import App from './components/App';
 import Signout  from './components/SignOut';
-import {loadJwtToken} from "./LocalStorage";
+import {loadJwtToken} from "./local-storage";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_BASE_URL
