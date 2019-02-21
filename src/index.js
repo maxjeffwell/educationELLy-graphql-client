@@ -11,6 +11,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Provider } from 'react-redux';
 import {createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
+import {setJwtToken, refreshJwtToken} from './actions/index';
 
 import { ThemeProvider } from 'styled-components';
 
@@ -32,6 +33,7 @@ import 'semantic-ui-css/components/sidebar.css';
 import reducers from './reducers';
 import App from './components/App';
 import Signout  from './components/SignOut';
+import {loadJwtToken} from "./LocalStorage";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_BASE_URL
@@ -93,6 +95,13 @@ const store = createStore(
   { auth: { authenticated: localStorage.getItem('jwtToken')}},
   composeWithDevTools(applyMiddleware(reduxThunk))
 );
+
+const jwtToken = loadJwtToken();
+if (jwtToken) {
+  const token = jwtToken;
+  store.dispatch(setJwtToken(token));
+  store.dispatch(refreshJwtToken(token));
+}
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

@@ -9,7 +9,8 @@ import Landing from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import Dashboard from '../Dashboard';
-import Signout from '../SignOut';
+import Students from '../Students';
+import UpdateStudent from '../UpdateStudent';
 import withSession from '../Session/withSession';
 
 import history from '../../constants/history';
@@ -54,12 +55,11 @@ const App = ({ session, refetch }) => (
     <Header session={session} />
     <Route exact path='/' component={() => <Landing />} />
     <Route exact path='/signup' component={() => <SignUpPage refetch={refetch} />} />
-    {/*<Route path='/students/:id/update' render={(props) => <UpdateStudent {...props} />} />*/}
-    {/*<Route exact path='/students' component={Students} />*/}
+    <Route path='/students/:id/update' render={(props) => <UpdateStudent {...props} />} />
+    <Route exact path='/students' component={() => <Students />} />
     <Route exact path='/signin' component={() => <SignInPage refetch={refetch} />} />
     <Route exact path='/dashboard' component={() => <Dashboard />} />
-    <Route exact path='/signout' component={() => <Signout />} />
-    </Container>
+  </Container>
   </Router>
 );
 

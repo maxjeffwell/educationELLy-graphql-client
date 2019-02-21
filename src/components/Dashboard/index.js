@@ -1,16 +1,30 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Menu, Container } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import Landing from '../Landing';
-// import Students from '../Students';
-// import AuthRequired from '../AuthRequired';
+const StyledContainer = styled(Container)`
+  &&& {
+    font-size: 1.5em;
+    font-family: "Roboto", "sans-serif";
+    font-weight: bold;
+    color: ${props => props.theme.blue};
+  }
+  `;
 
 const Dashboard = () => (
   <div id="dashboard">
-      <Switch>
-        <Route exact path='/' component={Landing} />
-        {/*<Route exact path='/' component={Students} />*/}
-      </Switch>
+    <Menu.Item>
+      <StyledContainer as={Link} name="students" to="/students">
+        Access Your Student List
+      </StyledContainer>
+    </Menu.Item>
+    <Menu.Item>
+      <Menu.Header>Document Upload Center Coming Soon</Menu.Header>
+    </Menu.Item>
+    <Menu.Item>
+      <Menu.Header>Integrated Team Member Messaging Coming Soon</Menu.Header>
+    </Menu.Item>
   </div>
 );
 

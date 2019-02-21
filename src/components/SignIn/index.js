@@ -218,7 +218,8 @@ class SignInForm extends Component {
 
 const mapStateToProps = state => ({
   errorMessage: state.auth.errorMessage,
-})
+  authenticated: state.auth.authenticated,
+});
 
 export default compose (
   connect(mapStateToProps, actions),(reduxForm)({ form: 'signin' }))(SignInPage);
