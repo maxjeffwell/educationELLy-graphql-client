@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
@@ -12,19 +12,16 @@ import ErrorMessage from '../Error';
 const GET_ALL_STUDENTS_QUERY = gql`
   query GET_ALL_STUDENTS_QUERY {
       students {
+          _id
           fullName
           school
           teacher
-          dateOfBirth
-          gender
-          race
           gradeLevel
           nativeLanguage
-          cityOfBirth
           ellStatus
           compositeLevel
-          active
           designation
+          countryOfBirth
       }
   }
 `;
@@ -98,8 +95,10 @@ class Students extends Component  {
   }
 }
 
-const mapStateToProps = state => ({
-  students: state.students.students,
-});
+// const mapStateToProps = state => ({
+//   students: state.students.students,
+// });
+//
+// export default connect(mapStateToProps)(Students);
 
-export default connect(mapStateToProps)(Students);
+export default Students;

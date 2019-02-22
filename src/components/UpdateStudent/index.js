@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Icon, Button } from 'semantic-ui-react';
@@ -7,7 +7,7 @@ import { LabelInputField } from 'react-semantic-redux-form';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-import history from '../../constants/history';
+// import history from '../../constants/history';
 
 const StyledForm = styled(Form)`
   &&& .ui.labeled.input:not([class*="corner labeled"]) 
@@ -47,122 +47,157 @@ const StyledErrorMessage = styled.div`
   }
 `;
 
-const UPDATE_STUDENT = gql`
-  mutation($input: UpdateStudentInput!) {
-      updateStudent(input: $input) {
-          Student {
-              id
-          }
+// const SINGLE_STUDENT_QUERY = gql`
+//   query SINGLE_STUDENT_QUERY($id: ID) {
+//       student(id: $id) {
+//           _id
+//       }
+//   }
+// `;
+
+const UPDATE_STUDENT_MUTATION = gql`
+  mutation UPDATE_STUDENT_MUTATION($input: UpdateStudentInput!) {
+      updateStudent(input: $UpdateStudentInput) {
+          fullName
+          school
+          teacher
+          gradeLevel
+          ellStatus
+          compositeLevel
+          designation
       }
   }
 `;
 
 class UpdateStudent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { initialValues: null }
-  }
+  state = {};
 
   onChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
+    const {name, value} = event.target;
+    this.setState({[name]: value});
   };
 
-  onSubmit = (event, updateStudent) => {
-    updateStudent().then(async ({ data }) => {
-      this.setState({ data });
+  // onSubmit = (event, updateStudent) => {
+  //   updateStudent().then(async ({ data }) => {
+  //     this.setState({ data });
+  //
+  //     await this.props.refetch();
+  //     history.push('/students');
+  //   });
+  //   event.preventDefault();
+  // };
 
-      await this.props.refetch();
-      history.push('/students');
-    });
+  updateStudent = async (event, updateStudentMutation) => {
     event.preventDefault();
+    console.log('Updating Student!!');
+    console.log(this.state);
+    await updateStudentMutation({
+      variables: {
+        id: this.props.id,
+        ...this.state,
+      },
+    });
+    console.log('Updated!!');
   };
 
   render() {
-    const {
-      fullName, school, teacher, dateOfBirth, gender, race, gradeLevel, nativeLanguage,
-      cityOfBirth, countryOfBirth, ellStatus, compositeLevel, active, designation
-    } = this.state;
+    // const {
+    //   fullName, school, teacher, gradeLevel, ellStatus, compositeLevel, designation
+    // } = this.state;
 
-    return (
-      <Mutation mutation={UPDATE_STUDENT} variables={{
-        fullName,
-        school,
-        teacher,
-        dateOfBirth,
-        gender,
-        race,
-        gradeLevel,
-        nativeLanguage,
-        cityOfBirth,
-        countryOfBirth,
-        ellStatus,
-        compositeLevel,
-        active,
-        designation
-      }}>
-        {(updateStudent, {data, loading, error}) => (
+    // return (
+    //
+    //   <Query
+    //     query={SINGLE_STUDENT_QUERY}
+    //     variables={{
+    //       id: this.props.id,
+    //     }}
+    //   >
+    //
+    //     {({data, loading}) => {
+    //       if (loading) return <p>Loading...</p>;
+    //       // if (!data.student) return <p>No Student Found for ID {this.props.id}</p>;
 
-          <StyledForm onSubmit={event => this.onSubmit(event, updateStudent)}>
+          return (
 
-            <Field name="fullName" component={LabelInputField}
-                   label={{content: <Icon color="green" name="student" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="Student Name"/>
+            <Mutation mutation={UPDATE_STUDENT_MUTATION} variables={this.state}>
+              {(updateStudent, {data, loading, error}) => (
 
-            <Field name="school" component={LabelInputField}
-                   label={{content: <Icon color="blue" name="university" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="School Name"
-                   onChange={this.onChange}
-            />
+                <StyledForm onSubmit={event => this.updateStudent(event, updateStudent)}>
 
-            <Field name="teacher" component={LabelInputField}
-                   label={{content: <Icon color="orange" name="header" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="Teacher Name"
-                   onChange={this.onChange}
-            />
+                  <Field name="fullName" component={LabelInputField}
+                         label={{content: <Icon color="green" name="student" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="Student Name"
+                         // defaultValue={data.student.fullName}
+                         onChange={this.onChange}
+                  />
 
-            <Field name="gradeLevel" component={LabelInputField}
-                   label={{content: <Icon color="green" name="level up" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="Grade Level"
-                   onChange={this.onChange}
-            />
+                  <Field name="school" component={LabelInputField}
+                         label={{content: <Icon color="blue" name="university" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="School Name"
+                         // defaultValue={data.student.school}
+                         onChange={this.onChange}
+                  />
 
-            <Field name="ellStatus" component={LabelInputField}
-                   label={{content: <Icon color="blue" name="language" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="Current ELL Status"
-                   onChange={this.onChange}
-            />
+                  <Field name="teacher" component={LabelInputField}
+                         label={{content: <Icon color="orange" name="header" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="Teacher Name"
+                         // defaultValue={data.student.teacher}
+                         onChange={this.onChange}
+                  />
 
-            <Field name="compositeLevel" component={LabelInputField}
-                   label={{content: <Icon color="orange" name="bullseye" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="Composite Level"
-                   onChange={this.onChange}
-            />
+                  <Field name="gradeLevel" component={LabelInputField}
+                         label={{content: <Icon color="green" name="level up" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="Grade Level"
+                         // defaultValue={data.student.gradeLevel}
+                         onChange={this.onChange}
+                  />
 
-            <Field name="designation" component={LabelInputField}
-                   label={{content: <Icon color="green" name="certificate" size="large"/>}}
-                   labelPosition="left"
-                   placeholder="Current Designation"
-                   onChange={this.onChange}
-            />
+                  <Field name="ellStatus" component={LabelInputField}
+                         label={{content: <Icon color="blue" name="language" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="Current ELL Status"
+                         // defaultValue={data.student.ellStatus}
+                         onChange={this.onChange}
+                  />
 
-            <Button>Update</Button>
+                  <Field name="compositeLevel" component={LabelInputField}
+                         label={{content: <Icon color="orange" name="bullseye" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="Composite Level"
+                         // defaultValue={data.student.compositeLevel}
+                         onChange={this.onChange}
+                  />
 
-            <StyledErrorMessage>
-              {error && <ErrorMessage error={error}/>}
-            </StyledErrorMessage>
+                  <Field name="designation" component={LabelInputField}
+                         label={{content: <Icon color="green" name="certificate" size="large"/>}}
+                         labelPosition="left"
+                         placeholder="Current Designation"
+                         // defaultValue={data.student.designation}
+                         onChange={this.onChange}
+                  />
 
-          </StyledForm>
-        )}
-      </Mutation>
-    );
-  }}
+                  <Button type="submit">Updat{loading ? 'ing' : 'e'} Student</Button>
+
+                  <StyledErrorMessage>
+                    {error && <ErrorMessage error={error}/>}
+                  </StyledErrorMessage>
+
+                </StyledForm>
+              )}
+            </Mutation>
+          );
+        // }}
+      // </Query>
+    // );
+  }
+}
 
 
 export default reduxForm({form: 'UpdateStudent', fields: ['fullName', 'school', 'teacher', 'gradeLevel', 'ellStatus', 'compositeLevel', 'designation']})(UpdateStudent);
+
+export { UPDATE_STUDENT_MUTATION };

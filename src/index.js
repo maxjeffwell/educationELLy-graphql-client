@@ -9,9 +9,9 @@ import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { Provider } from 'react-redux';
-import {createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
-import {setJwtToken, refreshJwtToken} from './actions/index';
+// import {setJwtToken, refreshJwtToken} from './actions/index';
 
 import { ThemeProvider } from 'styled-components';
 
@@ -32,8 +32,8 @@ import 'semantic-ui-css/components/sidebar.css';
 
 import reducers from './reducers';
 import App from './components/App';
-import Signout  from './components/SignOut';
-import {loadJwtToken} from "./local-storage";
+import { signOut }  from './components/SignOut';
+// import {loadJwtToken} from "./local-storage";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_BASE_URL
@@ -59,7 +59,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       console.log('GraphQL error', message);
 
       if (message === 'You are not authenticated. Please sign in.') {
-        Signout(client);
+        signOut(client);
       }
     });
   }
@@ -68,7 +68,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     console.log('Network error', networkError);
 
     if (networkError.statusCode === 401) {
-      Signout(client);
+      signOut(client);
     }
   }
 });
@@ -96,12 +96,12 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(reduxThunk))
 );
 
-const jwtToken = loadJwtToken();
-if (jwtToken) {
-  const token = jwtToken;
-  store.dispatch(setJwtToken(token));
-  store.dispatch(refreshJwtToken(token));
-}
+// const jwtToken = loadJwtToken();
+// if (jwtToken) {
+//   const token = jwtToken;
+//   store.dispatch(setJwtToken(token));
+//   store.dispatch(refreshJwtToken(token));
+// }
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

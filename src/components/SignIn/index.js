@@ -11,7 +11,7 @@ import { LabelInputField } from 'react-semantic-redux-form';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-import * as actions from '../../actions';
+// import * as actions from '../../actions';
 import history from '../../constants/history';
 
 export const StyledMessage = styled(Message)`
@@ -184,7 +184,7 @@ class SignInForm extends Component {
               value={login}
               onChange={this.onChange}
               type="text"
-              placeholder="Email or Username"
+              placeholder="Email"
             />
             <Field
               name="password"
@@ -222,7 +222,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose (
-  connect(mapStateToProps, actions),(reduxForm)({ form: 'signin' }))(SignInPage);
+  connect(mapStateToProps),(reduxForm)({ form: 'signin' }))(SignInPage);
 
 export { SignInForm };
 

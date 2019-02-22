@@ -36,7 +36,7 @@ const StyledMenu = styled(Menu)`
 
 class Header extends Component {
   showLinks() {
-    if (this.props.authenticated) {
+    if (this.props.session.me) {
       return (
         <StyledMenu>
           <Menu.Item as="header">

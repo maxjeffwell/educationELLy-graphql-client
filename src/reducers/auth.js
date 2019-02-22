@@ -1,8 +1,9 @@
-import { AUTH_USER, AUTH_ERROR } from '../actions/types';
+import { AUTH_USER, AUTH_ERROR, CLEAR_AUTH } from '../actions/types';
 
 const INITIAL_STATE = {
   authenticated: '',
-  errorMessage: ''
+  errorMessage: '',
+  token: null
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -12,6 +13,8 @@ export default function(state = INITIAL_STATE, action) {
       return {...state, authenticated: action.payload};
     case AUTH_ERROR:
       return {...state, errorMessage: action.payload};
+    case CLEAR_AUTH:
+      return {...state, token: action.payload};
     default:
       return state;
   }
