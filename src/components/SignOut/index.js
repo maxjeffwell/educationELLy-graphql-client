@@ -38,10 +38,10 @@ class Signout extends Component { // create class based component in order to us
   };
 }
 
-const mapDispatchToProps = state => ({
+const mapStateToProps = state => ({
   token: state.auth.token,
 });
 
 
 export default compose (
-  connect(mapDispatchToProps, actions))(Signout);
+  connect(mapStateToProps, actions))(Signout);

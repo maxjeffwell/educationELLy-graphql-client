@@ -11,7 +11,7 @@ import { LabelInputField } from 'react-semantic-redux-form';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-// import * as actions from '../../actions';
+import * as actions from '../../actions';
 import history from '../../constants/history';
 
 export const StyledMessage = styled(Message)`
@@ -38,7 +38,7 @@ export const StyledMessage = styled(Message)`
    }
 `;
 
-const StyledHeader = styled(Header)`
+export const StyledHeader = styled(Header)`
   &&& {
     margin-bottom: 20px;
     font-family: 'Roboto', 'sans-serif';
@@ -55,7 +55,7 @@ const StyledHeader = styled(Header)`
   }
   `;
 
-const StyledSegment = styled(Segment)`
+export const StyledSegment = styled(Segment)`
   &&& {
     display: grid;
     min-width: 420px;
@@ -179,7 +179,7 @@ class SignInForm extends Component {
             <Field
               name="login"
               component={LabelInputField}
-              label={{ content: <Icon color="orange" name="user outline" size="large" /> }}
+              label={{ content: <Icon color="orange" name="user" size="large" /> }}
               labelPosition="left"
               value={login}
               onChange={this.onChange}
@@ -222,7 +222,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose (
-  connect(mapStateToProps),(reduxForm)({ form: 'signin' }))(SignInPage);
+  connect(mapStateToProps, actions),(reduxForm)({ form: 'signin' }))(SignInPage);
 
 export { SignInForm };
 

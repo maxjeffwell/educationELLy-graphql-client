@@ -20,10 +20,9 @@ const Dashboard = () => (
       </StyledContainer>
     </Menu.Item>
     <Menu.Item>
-      <Menu.Header>Document Upload Center Coming Soon</Menu.Header>
-    </Menu.Item>
-    <Menu.Item>
-      <Menu.Header>Integrated Team Member Messaging Coming Soon</Menu.Header>
+      <StyledContainer as={Link} name="createStudent" to="/createStudent">
+        Create A New Student
+      </StyledContainer>
     </Menu.Item>
   </div>
 );

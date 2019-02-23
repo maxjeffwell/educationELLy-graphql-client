@@ -101,15 +101,14 @@ const StyledMessage = styled(Message)`
 `;
 
 const SIGN_UP = gql`
-  mutation($username: String!, $email: String!, $password: String!) {
-    signUp(username: $username, email: $email, password: $password) {
+  mutation($email: String!, $password: String!) {
+    signUp(email: $email, password: $password) {
       token
     }
   }
 `;
 
 const INITIAL_STATE = {
-  username: '',
   email: '',
   password: '',
   passwordConfirmation: ''
@@ -143,7 +142,6 @@ class SignUpForm extends Component {
 
   render() {
     const {
-      username,
       email,
       password,
       passwordConfirmation
@@ -152,13 +150,12 @@ class SignUpForm extends Component {
     const isInvalid =
       password !== passwordConfirmation ||
       password === '' ||
-      email === '' ||
-      username === '';
+      email === '';
 
     return (
       <Mutation
         mutation={SIGN_UP}
-        variables={{ username, email, password }}
+        variables={{ email, password }}
       >
     {(signUp, { data, loading, error }) => (
 
@@ -174,16 +171,9 @@ class SignUpForm extends Component {
               <StyledHeader as="h1">educationELLy registration</StyledHeader>
               <StyledForm onSubmit={event => this.onSubmit(event, signUp)}>
 
-                <Field name="username"
-                       component={LabelInputField}
-                       label={{ content: <Icon color="orange" name="user" size="large" /> }}
-                       labelPosition="left" placeholder="Username"
-                       onChange={this.onChange}
-                />
-
                 <Field name="email"
                        component={LabelInputField}
-                       label={{ content: <Icon color="orange" name="user outline" size="large" /> }}
+                       label={{ content: <Icon color="orange" name="user" size="large" /> }}
                        labelPosition="left" placeholder="Email"
                        onChange={this.onChange}
                 />

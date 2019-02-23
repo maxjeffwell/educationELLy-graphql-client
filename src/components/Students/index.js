@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-// import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
@@ -94,11 +93,5 @@ class Students extends Component  {
     );
   }
 }
-
-// const mapStateToProps = state => ({
-//   students: state.students.students,
-// });
-//
-// export default connect(mapStateToProps)(Students);
 
 export default Students;

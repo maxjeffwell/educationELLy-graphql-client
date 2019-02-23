@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import ErrorMessage from '../Error';
 // import history from '../../constants/history';
 
-const StyledForm = styled(Form)`
+export const StyledForm = styled(Form)`
   &&& .ui.labeled.input:not([class*="corner labeled"]) 
   .label:first-child+input {
     font-family: 'Roboto', 'sans-serif';
@@ -56,7 +56,7 @@ const StyledErrorMessage = styled.div`
 // `;
 
 const UPDATE_STUDENT_MUTATION = gql`
-  mutation UPDATE_STUDENT_MUTATION($input: UpdateStudentInput!) {
+  mutation UPDATE_STUDENT_MUTATION($input: UpdateStudentInput) {
       updateStudent(input: $UpdateStudentInput) {
           fullName
           school

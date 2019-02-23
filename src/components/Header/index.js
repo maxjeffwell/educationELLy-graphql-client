@@ -48,7 +48,7 @@ class Header extends Component {
           <Menu.Menu position="right">
             <Menu.Item as={Link} name="Students" to="/students">
             </Menu.Item>
-            <Menu.Item as={Link} name="Logout" to="/signout">
+            <Menu.Item as={Link} onClick={(client) => client.resetStore()} name="Logout" to="/signout">
             </Menu.Item>
           </Menu.Menu>
         </StyledMenu>
@@ -85,8 +85,9 @@ class Header extends Component {
   };
 }
 
-function mapStateToProps(state) {
-  return { authenticated: state.auth.authenticated };
-}
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
+  token: state.auth.token
+});
 
 export default connect(mapStateToProps)(Header);
