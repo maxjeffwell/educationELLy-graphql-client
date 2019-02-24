@@ -86,8 +86,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
-  token: state.auth.token
+  authenticated: state.authenticated
 });
 
 export default connect(mapStateToProps)(Header);

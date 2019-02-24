@@ -1,29 +1,29 @@
 import axios from 'axios';
-// import jwtDecode from 'jwt-decode';
 
 import {API_BASE_URL} from "../config";
-// import {FETCH_STUDENTS, AUTH_ERROR, AUTH_USER, SET_JWT_TOKEN, AUTH_SUCCESS, AUTH_REQUEST, CLEAR_AUTH} from "./types";
-import {AUTH_ERROR, AUTH_USER, CLEAR_AUTH } from "./types";
-import { normalizeResponseErrors } from './utils';
-import {clearJwtToken, saveJwtToken} from "../local-storage";
 
-export const signup = (formProps, callback) => async dispatch => {
+export const AUTH_SIGNIN = 'AUTH_SIGNIN';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const AUTH_SIGNOUT = 'AUTH_SIGNOUT';
+// export const FETCH_STUDENTS = 'FETCH_STUDENTS';
+
+// export const signup = (formProps, callback) => async dispatch => {
+//   try {
+//     const response = await axios.post(`${API_BASE_URL}`, formProps);
+//     dispatch({ type: AUTH_SIGNUP, payload: response.data.token });
+//
+//     localStorage.setItem('jwtToken', response.data.token);
+//     callback();
+//
+//   } catch(e) {
+//     dispatch({ type: AUTH_ERROR, payload: 'This email is in use. Please register using a different email.' });
+//   }
+// };
+
+export const signIn = (formProps, callback) => async dispatch => {
   try {
     const response = await axios.post(`${API_BASE_URL}`, formProps);
-    dispatch({ type: AUTH_USER, payload: response.data.token });
-
-    localStorage.setItem('jwtToken', response.data.token);
-    callback();
-
-  } catch(e) {
-    dispatch({ type: AUTH_ERROR, payload: 'This email is in use. Please register using a different email.' });
-  }
-};
-
-export const signin = (formProps, callback) => async dispatch => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}`, formProps);
-    dispatch({type: AUTH_USER, payload: response.data.token});
+    dispatch({type: AUTH_SIGNIN, payload: response.data.token});
 
     localStorage.setItem('jwtToken', response.data.token);
     callback();
@@ -33,9 +33,9 @@ export const signin = (formProps, callback) => async dispatch => {
   }
 };
 
-export const signout = () => {
+export const signOut = () => {
   localStorage.removeItem('token');
-  return {type: CLEAR_AUTH, payload: ''};
+  return {type: AUTH_SIGNOUT};
 };
 
 // export const fetchStudents = () => async dispatch => {
@@ -47,55 +47,4 @@ export const signout = () => {
 //   dispatch({ type: FETCH_STUDENTS, payload: res.data });
 // };
 
-// export const setJwtToken = jwtToken => ({
-//   type: SET_JWT_TOKEN,
-//   jwtToken
-// });
 
-// export const clearAuth = () => ({
-//   type: CLEAR_AUTH,
-// });
-//
-// export const authRequest = () => ({
-//   type: AUTH_REQUEST,
-// });
-//
-// export const authSuccess = currentUser => ({
-//   type: AUTH_SUCCESS,
-//   currentUser
-// });
-//
-// export const authError = error => ({
-//   type: AUTH_ERROR,
-//   error
-// });
-
-// Stores the auth token in state and localStorage, and decodes and stores
-// the user data stored in the token
-
-// const storeAuthInfo = (jwtToken, dispatch) => {
-//   const decodedToken = jwtDecode(jwtToken);
-//   dispatch(setJwtToken(jwtToken));
-//   dispatch(authSuccess(decodedToken.user));
-//   saveJwtToken(jwtToken);
-// };
-
-// export const refreshJwtToken = () => (dispatch, getState) => {
-//   dispatch(authRequest());
-//   const jwtToken = getState().auth.jwtToken;
-//   return fetch(`${API_BASE_URL}/auth/refresh`, {
-//     method: 'POST',
-//     headers: {
-//       // Provide our existing token as credentials to get a new one
-//       Authorization: `Bearer ${jwtToken}`
-//     }
-//   })
-//     .then(res => normalizeResponseErrors(res))
-//     .then(res => res.json())
-//     .then(({jwtToken}) => storeAuthInfo(jwtToken, dispatch))
-//     .catch(err => {
-//       dispatch(authError(err));
-//       dispatch(clearAuth());
-//       clearJwtToken(jwtToken);
-//     });
-// };

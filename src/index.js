@@ -6,12 +6,11 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { ReduxCache, apolloReducer } from 'apollo-cache-redux';
 import reduxThunk from 'redux-thunk';
-// import {setJwtToken, refreshJwtToken} from './actions/index';
 
 import { ThemeProvider } from 'styled-components';
 
@@ -33,7 +32,8 @@ import 'semantic-ui-css/components/sidebar.css';
 import reducers from './reducers';
 import App from './components/App';
 import { signOut }  from './components/SignOut';
-// import {loadJwtToken} from "./local-storage";
+import { AUTH_SIGNIN } from './actions';
+const token = localStorage.getItem('token');
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_BASE_URL
@@ -75,7 +75,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const link = ApolloLink.from([authLink, errorLink, httpLink]);
 
-const cache = new InMemoryCache();
+const store = createStore(
+  combineReducers({
+    reducers,
+    apollo: apolloReducer
+  }),
+  {},
+  composeWithDevTools(applyMiddleware(reduxThunk))
+);
+
+const cache = new ReduxCache({ store });
 
 const client = new ApolloClient({
   link,
@@ -83,25 +92,16 @@ const client = new ApolloClient({
   connectToDevTools: true
 });
 
+if (token) {
+  store.dispatch({ type: AUTH_SIGNIN });
+}
+
 const theme = {
   orange: '#fb9438',
   blue: '#2873b4',
   green: '#86c64e',
   white: '#f5f5f5',
 };
-
-const store = createStore(
-  reducers,
-  { auth: { authenticated: localStorage.getItem('jwtToken')}},
-  composeWithDevTools(applyMiddleware(reduxThunk))
-);
-
-// const jwtToken = loadJwtToken();
-// if (jwtToken) {
-//   const token = jwtToken;
-//   store.dispatch(setJwtToken(token));
-//   store.dispatch(refreshJwtToken(token));
-// }
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

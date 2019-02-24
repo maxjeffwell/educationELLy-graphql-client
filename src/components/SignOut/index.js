@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { ApolloConsumer } from 'react-apollo';
-import { StyledMessage } from '../SignIn';
+import { StyledMessage } from '../SignIn/SignInPage';
 
 import * as actions from '../../actions';
 

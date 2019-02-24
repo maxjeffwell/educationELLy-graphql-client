@@ -7,7 +7,7 @@ import WebFont from 'webfontloader';
 import Header from '../Header';
 import Landing from '../Landing';
 import SignUpPage from '../SignUp';
-import SignInPage from '../SignIn';
+import SignInPage from '../SignIn/SignInPage';
 import Dashboard from '../Dashboard';
 import SignOut from '../SignOut';
 import Students from '../Students';
@@ -51,7 +51,7 @@ body {
 `;
 
 const App = ({ session, refetch }) => (
-  <Router history={history}>
+  <Router history={history} onUpdate={() => window.scrollTo(0,0)}>
   <Container>
     <GlobalStyle />
     <Header session={session} />
