@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
@@ -18,7 +18,7 @@ const StyledError = styled.div`
 
 const CREATE_STUDENT_MUTATION = gql`
   mutation CREATE_STUDENT_MUTATION($input: NewStudentInput){
-    createStudent(input: $NewStudentInput) {
+    createStudent(input: $input) {
         fullName
         school
         teacher
@@ -35,95 +35,91 @@ class CreateStudent extends Component {
     fullName: '',
     school: '',
     teacher: '',
-    dateOfBirth: '',
-    gender: '',
-    race: '',
     gradeLevel: '',
-    nativeLanguage: '',
-    cityOfBirth: '',
-    countryOfBirth: '',
     ellStatus: '',
     compositeLevel: '',
-    active: '',
     designation: ''
   };
 
   onChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
+    const { name, type, value } = event.target;
+    console.log({name, type, value});
+    const val = type === 'number' ? parseFloat(value) : value;
+    this.setState({ [name]: val });
   };
 
   render() {
     return (
       <Mutation mutation={CREATE_STUDENT_MUTATION} variables={this.state}>
-        {(createStudent, { data, loading, error }) => (
+        {(createStudent, { loading, error }) => (
 
           <StyledForm onSubmit={async event => {
+            // stop form from submitting
             event.preventDefault();
+            console.log(this.state);
+            // call the mutation
             const res = await createStudent();
+            // change to single student page
             console.log(res);
-            history.push({
-              pathName: '/student/:id',
-              query: {id: res.data.createStudent.id},
-            })
-          }}>
+            history.push('/students/id');
+          }}
+          >
+            <StyledError>
+              {error && <ErrorMessage error={error}/>}
+            </StyledError>
+            <fieldset disabled={loading} aria-busy={loading}>
 
             <input name="fullName"
-                   label={{ content: <Icon color="green" name="student" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.fullName}
                    placeholder="Student Name"
                    onChange={this.onChange}
             />
 
             <input name="school"
-                   label={{ content: <Icon color="blue" name="university" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.school}
                    placeholder="School Name"
                    onChange={this.onChange}
             />
 
             <input name="teacher"
-                   label={{ content: <Icon color="orange" name="header" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.teacher}
                    placeholder="Teacher Name"
-              // defaultValue={data.student.teacher}
                    onChange={this.onChange}
             />
 
             <input name="gradeLevel"
-                   label={{ content: <Icon color="green" name="level up" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.gradeLevel}
                    placeholder="Grade Level"
                    onChange={this.onChange}
             />
 
             <input name="ellStatus"
-                   label={{ content: <Icon color="blue" name="language" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.ellStatus}
                    placeholder="Current ELL Status"
                    onChange={this.onChange}
             />
 
             <input name="compositeLevel"
-                   label={{ content: <Icon color="orange" name="bullseye" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.compositeLevel}
                    placeholder="Composite Level"
                    onChange={this.onChange}
             />
 
             <input name="designation"
-                   label={{ content: <Icon color="green" name="certificate" size="large"/> }}
-                   labelposition="left"
+                   type="text"
+                   value={this.state.designation}
                    placeholder="Current Designation"
                    onChange={this.onChange}
             />
-
             <Button type="submit">Creat{loading ? 'ing' : 'e'} Student</Button>
 
-            <StyledError>
-              {error && <ErrorMessage error={error}/>}
-            </StyledError>
-
+            </fieldset>
           </StyledForm>
         )}
       </Mutation>
