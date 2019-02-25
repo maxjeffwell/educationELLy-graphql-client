@@ -8,14 +8,7 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reduxThunk from 'redux-thunk';
-// import {setJwtToken, refreshJwtToken} from './actions/index';
-
 import { ThemeProvider } from 'styled-components';
-
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 import 'semantic-ui-css/components/button.css';
 import 'semantic-ui-css/components/container.css';
@@ -30,10 +23,8 @@ import 'semantic-ui-css/components/menu.css';
 import 'semantic-ui-css/components/input.css';
 import 'semantic-ui-css/components/sidebar.css';
 
-import reducers from './reducers';
 import App from './components/App';
 import { signOut }  from './components/SignOut';
-// import {loadJwtToken} from "./local-storage";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_BASE_URL
@@ -90,25 +81,10 @@ const theme = {
   white: '#f5f5f5',
 };
 
-const store = createStore(
-  reducers,
-  { auth: { authenticated: localStorage.getItem('jwtToken')}},
-  composeWithDevTools(applyMiddleware(reduxThunk))
-);
-
-// const jwtToken = loadJwtToken();
-// if (jwtToken) {
-//   const token = jwtToken;
-//   store.dispatch(setJwtToken(token));
-//   store.dispatch(refreshJwtToken(token));
-// }
-
 ReactDOM.render(
   <ThemeProvider theme={theme}>
   <ApolloProvider client={client}>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </ApolloProvider>
   </ThemeProvider>,
   document.getElementById('root'),
