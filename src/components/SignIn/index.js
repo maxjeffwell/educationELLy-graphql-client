@@ -1,18 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
 import { Form, Icon, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
-import { LabelInputField } from 'react-semantic-redux-form';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-import * as actions from '../../actions';
-import history from '../../constants/history';
 
 export const StyledMessage = styled(Message)`
   &&& {
@@ -142,7 +135,7 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      history.push('/dashboard');
+      this.props.history.push('/dashboard');
     });
     event.preventDefault();
   };
@@ -176,30 +169,28 @@ class SignInForm extends Component {
                     <StyledHeader as="h1">educationELLy login</StyledHeader>
 
           <StyledForm onSubmit={event => this.onSubmit(event, signIn)}>
-            <Field
+            <input
               name="login"
-              component={LabelInputField}
               label={{ content: <Icon color="orange" name="user" size="large" /> }}
-              labelPosition="left"
+              labelposition="left"
               value={login}
               onChange={this.onChange}
               type="text"
               placeholder="Email"
             />
-            <Field
+            <input
               name="password"
-              component={LabelInputField}
               label={{ content: <Icon color="orange" name="lock" size="large" /> }}
-              labelPosition="left"
+              labelposition="left"
               value={password}
               onChange={this.onChange}
               type="password"
               placeholder="Password"
             />
 
-            <Form.Field control={Button} disabled={isInvalid || loading} primary type="submit">
+            <Button disabled={isInvalid || loading} primary type="submit">
             Sign In
-            </Form.Field>
+            </Button>
 
             <StyledError>
             {error && <ErrorMessage error={error}/>}
@@ -216,13 +207,7 @@ class SignInForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  errorMessage: state.auth.errorMessage,
-  authenticated: state.auth.authenticated,
-});
-
-export default compose (
-  connect(mapStateToProps, actions),(reduxForm)({ form: 'signin' }))(SignInPage);
+export default withRouter(SignInPage);
 
 export { SignInForm };
 

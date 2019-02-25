@@ -6,8 +6,6 @@ import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
 import history from '../../constants/history';
-import { Field, reduxForm } from 'redux-form';
-import { LabelInputField } from 'react-semantic-redux-form';
 import { StyledForm } from '../UpdateStudent';
 
 const StyledError = styled.div`
@@ -70,59 +68,53 @@ class CreateStudent extends Component {
             })
           }}>
 
-            <Field name="fullName" component={LabelInputField}
+            <input name="fullName"
                    label={{ content: <Icon color="green" name="student" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="Student Name"
-                   // defaultValue={data.student.fullName}
                    onChange={this.onChange}
             />
 
-            <Field name="school" component={LabelInputField}
+            <input name="school"
                    label={{ content: <Icon color="blue" name="university" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="School Name"
-              // defaultValue={data.student.school}
                    onChange={this.onChange}
             />
 
-            <Field name="teacher" component={LabelInputField}
+            <input name="teacher"
                    label={{ content: <Icon color="orange" name="header" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="Teacher Name"
               // defaultValue={data.student.teacher}
                    onChange={this.onChange}
             />
 
-            <Field name="gradeLevel" component={LabelInputField}
+            <input name="gradeLevel"
                    label={{ content: <Icon color="green" name="level up" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="Grade Level"
-              // defaultValue={data.student.gradeLevel}
                    onChange={this.onChange}
             />
 
-            <Field name="ellStatus" component={LabelInputField}
+            <input name="ellStatus"
                    label={{ content: <Icon color="blue" name="language" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="Current ELL Status"
-              // defaultValue={data.student.ellStatus}
                    onChange={this.onChange}
             />
 
-            <Field name="compositeLevel" component={LabelInputField}
+            <input name="compositeLevel"
                    label={{ content: <Icon color="orange" name="bullseye" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="Composite Level"
-              // defaultValue={data.student.compositeLevel}
                    onChange={this.onChange}
             />
 
-            <Field name="designation" component={LabelInputField}
+            <input name="designation"
                    label={{ content: <Icon color="green" name="certificate" size="large"/> }}
-                   labelPosition="left"
+                   labelposition="left"
                    placeholder="Current Designation"
-              // defaultValue={data.student.designation}
                    onChange={this.onChange}
             />
 
@@ -139,6 +131,6 @@ class CreateStudent extends Component {
   }
 }
 
-export default reduxForm({form: 'CreateStudent', fields: ['fullName', 'school', 'teacher', 'gradeLevel', 'ellStatus', 'compositeLevel', 'designation']})(CreateStudent);
+export default CreateStudent;
 
 export { CREATE_STUDENT_MUTATION };

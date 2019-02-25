@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -85,9 +84,4 @@ class Header extends Component {
   };
 }
 
-const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
-  token: state.auth.token
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;

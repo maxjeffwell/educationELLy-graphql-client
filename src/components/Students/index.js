@@ -50,9 +50,7 @@ const StyledCard = styled(Card)`
 class Students extends Component  {
 
   renderStudentData() {
-
     return (
-
       <Query query={GET_ALL_STUDENTS_QUERY}>
         {({data, error, loading}) => {
           if (loading) return <Loading/>;

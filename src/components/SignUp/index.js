@@ -1,17 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
 
 import { Form, Icon, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
-import { LabelInputField } from 'react-semantic-redux-form';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-import * as actions from '../../actions';
-import history from '../../constants/history';
 
 const StyledSegment = styled(Segment)`
   &&& {
@@ -135,8 +130,9 @@ class SignUpForm extends Component {
       localStorage.setItem('token', data.signUp.token);
 
       await this.props.refetch();
-      history.push('/dashboard');
+      this.props.history.push('/dashboard');
     });
+
     event.preventDefault();
   };
 
@@ -171,30 +167,29 @@ class SignUpForm extends Component {
               <StyledHeader as="h1">educationELLy registration</StyledHeader>
               <StyledForm onSubmit={event => this.onSubmit(event, signUp)}>
 
-                <Field name="email"
-                       component={LabelInputField}
+                <input name="email"
                        label={{ content: <Icon color="orange" name="user" size="large" /> }}
                        labelPosition="left" placeholder="Email"
                        onChange={this.onChange}
                 />
 
-                <Field name="password"
-                       component={LabelInputField} type="password"
+                <input name="password"
+                       type="password"
                        label={{ content: <Icon color="orange" name="lock" size="large" /> }}
                        labelPosition="left" placeholder="Password"
                        onChange={this.onChange}
                 />
 
-                <Field name="passwordConfirmation"
+                <input name="passwordConfirmation"
                        value={passwordConfirmation}
-                       component={LabelInputField} type="password"
+                       type="password"
                        label={{ content: <Icon color="orange" name="unlock alternate" size="large" /> }}
                        labelPosition="left" placeholder="Confirm Password"
                        onChange={this.onChange}
                 />
-                <Form.Field control={Button} disabled={isInvalid || loading} primary type="submit">
+                <Button disabled={isInvalid || loading} primary type="submit">
                   Register
-                </Form.Field>
+                </Button>
 
                 <StyledErrorMessage>
                   {error && <ErrorMessage error={error}/>}
@@ -211,11 +206,6 @@ class SignUpForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-    errorMessage: state.auth.errorMessage,
-  })
-
-export default compose (
-  connect(mapStateToProps, actions),(reduxForm)({ form: 'signup' }))(SignUpPage);
+export default withRouter(SignUpPage);
 
 export { SignUpForm };
