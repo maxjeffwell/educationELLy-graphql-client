@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { Button } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-import history from '../../constants/history';
 import { StyledForm } from '../UpdateStudent';
 
 const StyledError = styled.div`
@@ -17,18 +17,38 @@ const StyledError = styled.div`
 `;
 
 const CREATE_STUDENT_MUTATION = gql`
-  mutation CREATE_STUDENT_MUTATION($input: NewStudentInput){
+  mutation CREATE_STUDENT_MUTATION($input: NewStudentInput!) {
     createStudent(input: $input) {
         fullName
         school
         teacher
         gradeLevel
+        nativeLanguage
         ellStatus
         compositeLevel
         designation
-    }
-  }
+        countryOfBirth
+     }
+   }
 `;
+
+// const CREATE_STUDENT_MUTATION = gql`
+//   mutation CREATE_STUDENT_MUTATION($fullname: String, $school: String, $teacher: String, $gradeLevel: String, $ellStatus: String, $compositeLevel: String,
+//   $designation: String) {
+//     createStudent(fullname: $fullname, school: $school, teacher: $teacher, gradeLevel: $gradeLevel, ellStatus: $ellStatus, compositeLevel:                      $compositeLevel, designation: $designation){
+//             _id
+//           fullName
+//           school
+//           teacher
+//           gradeLevel
+//           nativeLanguage
+//           ellStatus
+//           compositeLevel
+//           designation
+//           countryOfBirth
+//   }
+//   }
+// `;
 
 class CreateStudent extends Component {
   state = {
@@ -36,9 +56,11 @@ class CreateStudent extends Component {
     school: '',
     teacher: '',
     gradeLevel: '',
+    nativeLanguage: '',
     ellStatus: '',
     compositeLevel: '',
-    designation: ''
+    designation: '',
+    countryOfBirth: '',
   };
 
   onChange = event => {
@@ -48,25 +70,24 @@ class CreateStudent extends Component {
     this.setState({ [name]: val });
   };
 
+  onSubmit = async (event, createStudent) => {
+    event.preventDefault();
+
+    try {
+      await createStudent();
+      this.setState({ fullName: '', school: '', teacher: '', gradeLevel: '', nativeLanguage: '', ellStatus: '', compositeLevel: '', designation: '', countryOfBirth: '' });
+      this.props.history.push('/students');
+    } catch (error) {}
+  };
+
   render() {
+
     return (
       <Mutation mutation={CREATE_STUDENT_MUTATION} variables={this.state}>
-        {(createStudent, { loading, error }) => (
+        {(createStudent, { data, loading, error }) => (
 
-          <StyledForm onSubmit={async event => {
-            // stop form from submitting
-            event.preventDefault();
-            console.log(this.state);
-            // call the mutation
-            const res = await createStudent();
-            // change to single student page
-            console.log(res);
-            history.push('/students/id');
-          }}
+          <StyledForm onSubmit={event => this.onSubmit(event, createStudent)}
           >
-            <StyledError>
-              {error && <ErrorMessage error={error}/>}
-            </StyledError>
             <fieldset disabled={loading} aria-busy={loading}>
 
             <input name="fullName"
@@ -97,6 +118,13 @@ class CreateStudent extends Component {
                    onChange={this.onChange}
             />
 
+            <input name="nativeLanguage"
+                     type="text"
+                     value={this.state.nativeLanguage}
+                     placeholder="Native Language"
+                     onChange={this.onChange}
+              />
+
             <input name="ellStatus"
                    type="text"
                    value={this.state.ellStatus}
@@ -117,9 +145,19 @@ class CreateStudent extends Component {
                    placeholder="Current Designation"
                    onChange={this.onChange}
             />
-            <Button type="submit">Creat{loading ? 'ing' : 'e'} Student</Button>
+            <input name="countryOfBirth"
+                     type="text"
+                     value={this.state.countryOfBirth}
+                     placeholder="Country of Birth"
+                     onChange={this.onChange}
+              />
+
+              <Button type="submit">Creat{loading ? 'ing' : 'e'} Student</Button>
 
             </fieldset>
+            <StyledError>
+              {error && <ErrorMessage error={error}/>}
+            </StyledError>
           </StyledForm>
         )}
       </Mutation>
@@ -127,6 +165,6 @@ class CreateStudent extends Component {
   }
 }
 
-export default CreateStudent;
+export default withRouter(CreateStudent);
 
 export { CREATE_STUDENT_MUTATION };
