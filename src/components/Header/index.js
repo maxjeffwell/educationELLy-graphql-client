@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
+import history from '../../constants/history';
 
 const StyledMenu = styled(Menu)`
   &&& {
@@ -47,7 +48,7 @@ class Header extends Component {
           <Menu.Menu position="right">
             <Menu.Item as={Link} name="Students" to="/students">
             </Menu.Item>
-            <Menu.Item as={Link} onClick={(client) => client.resetStore()} name="Logout" to="/signout">
+            <Menu.Item as={Link} onClick={() => localStorage.removeItem('token').then(history.push('/signin'))} name="Logout" to="/signout">
             </Menu.Item>
           </Menu.Menu>
         </StyledMenu>

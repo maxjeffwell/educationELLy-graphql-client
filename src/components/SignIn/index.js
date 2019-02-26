@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Form, Icon, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
+import { Form, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
@@ -171,8 +171,6 @@ class SignInForm extends Component {
           <StyledForm onSubmit={event => this.onSubmit(event, signIn)}>
             <input
               name="login"
-              label={{ content: <Icon color="orange" name="user" size="large" /> }}
-              labelposition="left"
               value={login}
               onChange={this.onChange}
               type="text"
@@ -180,8 +178,6 @@ class SignInForm extends Component {
             />
             <input
               name="password"
-              label={{ content: <Icon color="orange" name="lock" size="large" /> }}
-              labelposition="left"
               value={password}
               onChange={this.onChange}
               type="password"
