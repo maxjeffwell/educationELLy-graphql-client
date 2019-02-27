@@ -32,24 +32,6 @@ const CREATE_STUDENT_MUTATION = gql`
    }
 `;
 
-// const CREATE_STUDENT_MUTATION = gql`
-//   mutation CREATE_STUDENT_MUTATION($fullname: String, $school: String, $teacher: String, $gradeLevel: String, $ellStatus: String, $compositeLevel: String,
-//   $designation: String) {
-//     createStudent(fullname: $fullname, school: $school, teacher: $teacher, gradeLevel: $gradeLevel, ellStatus: $ellStatus, compositeLevel:                      $compositeLevel, designation: $designation){
-//             _id
-//           fullName
-//           school
-//           teacher
-//           gradeLevel
-//           nativeLanguage
-//           ellStatus
-//           compositeLevel
-//           designation
-//           countryOfBirth
-//   }
-//   }
-// `;
-
 class CreateStudent extends Component {
   state = {
     fullName: '',

@@ -56,13 +56,13 @@ const StyledErrorMessage = styled.div`
 const UPDATE_STUDENT_MUTATION = gql`
   mutation($input: UpdateStudentInput) {
       updateStudent(input: $UpdateStudentInput) {
-          fullName: `student.${fullName}`
-          school: student.school,
-          teacher
-          gradeLevel
-          ellStatus
-          compositeLevel
-          designation
+          fullName: fullName
+          school: school
+          teacher: teacher
+          gradeLevel: gradeLevel
+          ellStatus: ellStatus
+          compositeLevel: compositeLevel
+          designation: designation
       }
   }
 `;

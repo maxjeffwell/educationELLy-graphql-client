@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
 
-import { Form, Icon, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
+import { Form, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
@@ -106,7 +106,6 @@ const SIGN_UP = gql`
 const INITIAL_STATE = {
   email: '',
   password: '',
-  passwordConfirmation: ''
 };
 
 const SignUpPage = ({ history, refetch }) => (
@@ -139,12 +138,10 @@ class SignUpForm extends Component {
   render() {
     const {
       email,
-      password,
-      passwordConfirmation
+      password
     } = this.state;
 
     const isInvalid =
-      password !== passwordConfirmation ||
       password === '' ||
       email === '';
 
@@ -168,23 +165,12 @@ class SignUpForm extends Component {
               <StyledForm onSubmit={event => this.onSubmit(event, signUp)}>
 
                 <input name="email"
-                       label={{ content: <Icon color="orange" name="user" size="large" /> }}
-                       labelPosition="left" placeholder="Email"
+                       type="email"
                        onChange={this.onChange}
                 />
 
                 <input name="password"
                        type="password"
-                       label={{ content: <Icon color="orange" name="lock" size="large" /> }}
-                       labelPosition="left" placeholder="Password"
-                       onChange={this.onChange}
-                />
-
-                <input name="passwordConfirmation"
-                       value={passwordConfirmation}
-                       type="password"
-                       label={{ content: <Icon color="orange" name="unlock alternate" size="large" /> }}
-                       labelPosition="left" placeholder="Confirm Password"
                        onChange={this.onChange}
                 />
                 <Button disabled={isInvalid || loading} primary type="submit">

@@ -9,9 +9,8 @@ import Loading from '../Loading';
 import ErrorMessage from '../Error';
 
 const GET_ALL_STUDENTS_QUERY = gql`
-  query GET_ALL_STUDENTS_QUERY {
+  query getAllStudents{
       students {
-          _id
           fullName
           school
           teacher
@@ -60,7 +59,7 @@ class Students extends Component  {
           return data.students.map(student => {
 
             return (
-              <StyledCard className="student-card" key={student._id}>
+              <StyledCard className="student-card" key={student.id}>
                 <Card.Content>
                   <Card.Header>Student: {student.fullName}</Card.Header>
                   <Card.Header>School: {student.school}</Card.Header>
@@ -73,7 +72,7 @@ class Students extends Component  {
                   <Card.Header>Country of Birth: {student.countryOfBirth}</Card.Header>
                 </Card.Content>
                 <Card.Content extra>
-                  <Link to={`/students/${student._id}/update`}>Edit Student Information</Link>
+                  <Link to={`/students/${student.id}/update`}>Edit Student Information</Link>
                 </Card.Content>
               </StyledCard>
             );

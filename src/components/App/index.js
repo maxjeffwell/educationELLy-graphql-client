@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
-import { Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
 
@@ -14,8 +14,6 @@ import Students from '../Students';
 import UpdateStudent from '../UpdateStudent';
 import CreateStudent from '../CreateStudent';
 import withSession from '../Session/withSession';
-
-import history from '../../constants/history';
 
 WebFont.load({
   google: {
@@ -51,7 +49,7 @@ body {
 `;
 
 const App = ({ session, refetch }) => (
-  <Router history={history}>
+  <BrowserRouter>
   <Container>
     <GlobalStyle />
     <Header session={session} />
@@ -64,7 +62,7 @@ const App = ({ session, refetch }) => (
     <Route exact path='/createStudent' component={() => <CreateStudent />} />
     <Route exact path='/signout' component={() => <SignOut />} />
   </Container>
-  </Router>
+  </BrowserRouter>
 );
 
 export default withSession(App);
