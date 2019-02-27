@@ -17,7 +17,7 @@ const StyledError = styled.div`
 `;
 
 const CREATE_STUDENT_MUTATION = gql`
-  mutation CREATE_STUDENT_MUTATION($input: NewStudentInput!) {
+  mutation createStudent($input: NewStudentInput!) {
     createStudent(input: $input) {
         fullName
         school
