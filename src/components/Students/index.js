@@ -59,7 +59,7 @@ class Students extends Component  {
           return data.students.map(student => {
 
             return (
-              <StyledCard className="student-card" key={student.id}>
+              <StyledCard className="student-card" key={student._id}>
                 <Card.Content>
                   <Card.Header>Student: {student.fullName}</Card.Header>
                   <Card.Header>School: {student.school}</Card.Header>

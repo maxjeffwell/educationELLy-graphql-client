@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
 import { Button } from 'semantic-ui-react';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import styled from 'styled-components';
-
-import ErrorMessage from '../Error';
-import { StyledForm } from '../UpdateStudent';
-
-const StyledError = styled.div`
-  &&& {
-    font-family: 'Roboto', 'sans-serif';
-    font-size: 1.5em;
-    color: ${props => props.theme.blue};
-  }
-`;
 
 const CREATE_STUDENT_MUTATION = gql`
   mutation createStudent($input: NewStudentInput!) {
@@ -45,108 +32,113 @@ class CreateStudent extends Component {
     countryOfBirth: '',
   };
 
-  onChange = event => {
-    const { name, type, value } = event.target;
-    console.log({name, type, value});
-    const val = type === 'number' ? parseFloat(value) : value;
-    this.setState({ [name]: val });
-  };
-
-  onSubmit = async (event, createStudent) => {
+  onSubmit(event) {
     event.preventDefault();
 
-    try {
-      await createStudent();
-      this.setState({ fullName: '', school: '', teacher: '', gradeLevel: '', nativeLanguage: '', ellStatus: '', compositeLevel: '', designation: '', countryOfBirth: '' });
-      this.props.history.push('/students');
-    } catch (error) {}
-  };
+    this.props.mutate({
+      variables: { "input":
+    {
+      fullName: this.state.fullName,
+        school
+    :
+      this.state.school,
+        teacher
+    :
+      this.state.teacher,
+        gradeLevel
+    :
+      this.state.gradeLevel,
+        nativeLanguage
+    :
+      this.state.nativeLanguage,
+        ellStatus
+    :
+      this.state.ellStatus,
+        compositeLevel
+    :
+      this.state.compositeLevel,
+        designation
+    :
+      this.state.designation,
+        countryOfBirth
+    :
+      this.state.countryOfBirth,
+    }
+  }
+    }).then(() => this.setState({ fullName: '', school: '', teacher: '', gradeLevel: '', nativeLanguage: '', ellStatus: '', compositeLevel: '', designation: '', countryOfBirth: ''  }));
+  }
 
   render() {
 
     return (
-      <Mutation mutation={CREATE_STUDENT_MUTATION} variables={this.state}>
-        {(createStudent, { data, loading, error }) => (
+      <form onSubmit={this.onSubmit.bind(this)}>
 
-          <StyledForm onSubmit={event => this.onSubmit(event, createStudent)}
-          >
-            <fieldset disabled={loading} aria-busy={loading}>
+        <input name="fullName"
+               type="text"
+               value={this.state.fullName}
+               placeholder="Student Name"
+               onChange={event => this.setState({ fullName: event.target.value })}
+        />
 
-            <input name="fullName"
-                   type="text"
-                   value={this.state.fullName}
-                   placeholder="Student Name"
-                   onChange={this.onChange}
-            />
+        <input name="school"
+               type="text"
+               value={this.state.school}
+               placeholder="School Name"
+               onChange={event => this.setState({ school: event.target.value })}
+        />
 
-            <input name="school"
-                   type="text"
-                   value={this.state.school}
-                   placeholder="School Name"
-                   onChange={this.onChange}
-            />
+        <input name="teacher"
+               type="text"
+               value={this.state.teacher}
+               placeholder="Teacher Name"
+               onChange={event => this.setState({ teacher: event.target.value })}
+        />
 
-            <input name="teacher"
-                   type="text"
-                   value={this.state.teacher}
-                   placeholder="Teacher Name"
-                   onChange={this.onChange}
-            />
+        <input name="gradeLevel"
+               type="text"
+               value={this.state.gradeLevel}
+               placeholder="Grade Level"
+               onChange={event => this.setState({ gradeLevel: event.target.value })}
+        />
 
-            <input name="gradeLevel"
-                   type="text"
-                   value={this.state.gradeLevel}
-                   placeholder="Grade Level"
-                   onChange={this.onChange}
-            />
+        <input name="nativeLanguage"
+               type="text"
+               value={this.state.nativeLanguage}
+               placeholder="Native Language"
+               onChange={event => this.setState({ nativeLanguage: event.target.value })}
+        />
 
-            <input name="nativeLanguage"
-                     type="text"
-                     value={this.state.nativeLanguage}
-                     placeholder="Native Language"
-                     onChange={this.onChange}
-              />
+        <input name="ellStatus"
+               type="text"
+               value={this.state.ellStatus}
+               placeholder="Current ELL Status"
+               onChange={event => this.setState({ ellStatus: event.target.value })}
+        />
 
-            <input name="ellStatus"
-                   type="text"
-                   value={this.state.ellStatus}
-                   placeholder="Current ELL Status"
-                   onChange={this.onChange}
-            />
+        <input name="compositeLevel"
+               type="text"
+               value={this.state.compositeLevel}
+               placeholder="Composite Level"
+               onChange={event => this.setState({ compositeLevel: event.target.value })}
+        />
 
-            <input name="compositeLevel"
-                   type="text"
-                   value={this.state.compositeLevel}
-                   placeholder="Composite Level"
-                   onChange={this.onChange}
-            />
+        <input name="designation"
+               type="text"
+               value={this.state.designation}
+               placeholder="Current Designation"
+               onChange={event => this.setState({ designation: event.target.value })}
+        />
+        <input name="countryOfBirth"
+               type="text"
+               value={this.state.countryOfBirth}
+               placeholder="Country of Birth"
+               onChange={event => this.setState({ countryOfBirth: event.target.value })}
+        />
 
-            <input name="designation"
-                   type="text"
-                   value={this.state.designation}
-                   placeholder="Current Designation"
-                   onChange={this.onChange}
-            />
-            <input name="countryOfBirth"
-                     type="text"
-                     value={this.state.countryOfBirth}
-                     placeholder="Country of Birth"
-                     onChange={this.onChange}
-              />
-
-              <Button type="submit">Creat{loading ? 'ing' : 'e'} Student</Button>
-
-            </fieldset>
-            <StyledError>
-              {error && <ErrorMessage error={error}/>}
-            </StyledError>
-          </StyledForm>
-        )}
-      </Mutation>
-    );
+        <Button type="submit">Create Student</Button>
+      </form>
+  );
   }
 }
 
-export default withRouter(CreateStudent);
-
-export { CREATE_STUDENT_MUTATION };
+export default graphql(CREATE_STUDENT_MUTATION)(CreateStudent);

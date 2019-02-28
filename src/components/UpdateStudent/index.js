@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Form, Icon, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -56,13 +56,7 @@ const StyledErrorMessage = styled.div`
 const UPDATE_STUDENT_MUTATION = gql`
   mutation($input: UpdateStudentInput) {
       updateStudent(input: $UpdateStudentInput) {
-          fullName: fullName
-          school: school
-          teacher: teacher
-          gradeLevel: gradeLevel
-          ellStatus: ellStatus
-          compositeLevel: compositeLevel
-          designation: designation
+          input
       }
   }
 `;
