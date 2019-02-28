@@ -5,7 +5,6 @@ import { Form, Icon, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
-// import history from '../../constants/history';
 
 export const StyledForm = styled(Form)`
   &&& .ui.labeled.input:not([class*="corner labeled"]) 

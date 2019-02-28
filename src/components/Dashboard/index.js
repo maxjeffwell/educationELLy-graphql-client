@@ -20,7 +20,7 @@ const Dashboard = () => (
       </StyledContainer>
     </Menu.Item>
     <Menu.Item>
-      <StyledContainer as={Link} name="createStudent" to="/createStudent">
+      <StyledContainer as={Link} name="createStudent" to="/student/new">
         Create A New Student
       </StyledContainer>
     </Menu.Item>

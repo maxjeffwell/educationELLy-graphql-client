@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
-import history from '../../constants/history';
 
 const StyledMenu = styled(Menu)`
   &&& {

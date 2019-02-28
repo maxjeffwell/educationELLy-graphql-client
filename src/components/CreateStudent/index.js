@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+
+import { GET_ALL_STUDENTS_QUERY } from '../Students';
 
 const CREATE_STUDENT_MUTATION = gql`
   mutation createStudent($input: NewStudentInput!) {
@@ -36,36 +39,26 @@ class CreateStudent extends Component {
     event.preventDefault();
 
     this.props.mutate({
-      variables: { "input":
-    {
+      variables: { "input": {
       fullName: this.state.fullName,
-        school
-    :
-      this.state.school,
-        teacher
-    :
-      this.state.teacher,
-        gradeLevel
-    :
-      this.state.gradeLevel,
-        nativeLanguage
-    :
-      this.state.nativeLanguage,
-        ellStatus
-    :
-      this.state.ellStatus,
-        compositeLevel
-    :
-      this.state.compositeLevel,
-        designation
-    :
-      this.state.designation,
-        countryOfBirth
-    :
-      this.state.countryOfBirth,
+      school: this.state.school,
+      teacher: this.state.teacher,
+      gradeLevel: this.state.gradeLevel,
+      nativeLanguage: this.state.nativeLanguage,
+      ellStatus: this.state.ellStatus,
+      compositeLevel: this.state.compositeLevel,
+      designation: this.state.designation,
+      countryOfBirth: this.state.countryOfBirth,
     }
-  }
-    }).then(() => this.setState({ fullName: '', school: '', teacher: '', gradeLevel: '', nativeLanguage: '', ellStatus: '', compositeLevel: '', designation: '', countryOfBirth: ''  }));
+  },
+      refetchQueries: [{ query: GET_ALL_STUDENTS_QUERY }]
+    })
+      .then(() => this.setState({
+        fullName: '', school: '', teacher: '', gradeLevel: '', nativeLanguage: '', ellStatus: '', compositeLevel: '',
+        designation: '', countryOfBirth: ''
+      })
+      )
+      .then(() => this.props.history.push('/students'));
   }
 
   render() {
@@ -141,4 +134,4 @@ class CreateStudent extends Component {
   }
 }
 
-export default graphql(CREATE_STUDENT_MUTATION)(CreateStudent);
+export default (withRouter)(graphql(CREATE_STUDENT_MUTATION)(CreateStudent));

@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
 
-import Header from '../Header';
+// import Header from '../Header';
 import Landing from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
@@ -13,7 +13,9 @@ import SignOut from '../SignOut';
 import Students from '../Students';
 import UpdateStudent from '../UpdateStudent';
 import CreateStudent from '../CreateStudent';
+import DeleteStudent from '../DeleteStudent';
 import withSession from '../Session/withSession';
+import Navigation from '../Navigation';
 
 WebFont.load({
   google: {
@@ -52,15 +54,17 @@ const App = ({ session, refetch }) => (
   <BrowserRouter>
   <Container>
     <GlobalStyle />
-    <Header session={session} />
+    {/*<Header />*/}
+    <Navigation session={session} />
     <Route exact path='/' component={() => <Landing />} />
     <Route exact path='/signup' component={() => <SignUpPage refetch={refetch} />} />
-    <Route path='/students/:id/update' render={(props) => <UpdateStudent {...props} />} />
+    <Route path='/student/update/' render={(props) => <UpdateStudent {...props} />} />
     <Route exact path='/students' component={() => <Students />} />
     <Route exact path='/signin' component={() => <SignInPage refetch={refetch} />} />
     <Route exact path='/dashboard' component={() => <Dashboard />} />
-    <Route exact path='/createStudent' component={() => <CreateStudent />} />
+    <Route exact path='/student/new' component={() => <CreateStudent />} />
     <Route exact path='/signout' component={() => <SignOut />} />
+    <Route exact path='/student/delete' render={(props) => <DeleteStudent {...props}/>} />
   </Container>
   </BrowserRouter>
 );

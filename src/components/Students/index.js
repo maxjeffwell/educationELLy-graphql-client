@@ -4,25 +4,10 @@ import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
 import styled from 'styled-components';
-
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
 
-const GET_ALL_STUDENTS_QUERY = gql`
-  query getAllStudents{
-      students {
-          fullName
-          school
-          teacher
-          gradeLevel
-          nativeLanguage
-          ellStatus
-          compositeLevel
-          designation
-          countryOfBirth
-      }
-  }
-`;
+import StudentDelete from '../DeleteStudent';
 
 const StyledCard = styled(Card)`
   &&& .content {
@@ -44,6 +29,22 @@ const StyledCard = styled(Card)`
     color: ${props => props.theme.green};
     font-weight: 700;
   }
+`;
+
+export const GET_ALL_STUDENTS_QUERY = gql`
+    query getAllStudents{
+        students {
+            fullName
+            school
+            teacher
+            gradeLevel
+            nativeLanguage
+            ellStatus
+            compositeLevel
+            designation
+            countryOfBirth
+        }
+    }
 `;
 
 class Students extends Component  {
@@ -70,9 +71,10 @@ class Students extends Component  {
                   <Card.Header>Designation: {student.designation}</Card.Header>
                   <Card.Header>Native Language: {student.nativeLanguage}</Card.Header>
                   <Card.Header>Country of Birth: {student.countryOfBirth}</Card.Header>
+                  <StudentDelete />
                 </Card.Content>
                 <Card.Content extra>
-                  <Link to={`/students/${student.id}/update`}>Edit Student Information</Link>
+                  <Link to="/student/update">Edit Student Information</Link>
                 </Card.Content>
               </StyledCard>
             );
