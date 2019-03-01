@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
 
-import StudentDelete from '../DeleteStudent';
+import DeleteStudent from '../DeleteStudent';
 
 const StyledCard = styled(Card)`
   &&& .content {
@@ -34,6 +34,7 @@ const StyledCard = styled(Card)`
 export const GET_ALL_STUDENTS_QUERY = gql`
     query getAllStudents{
         students {
+            _id
             fullName
             school
             teacher
@@ -71,7 +72,7 @@ class Students extends Component  {
                   <Card.Header>Designation: {student.designation}</Card.Header>
                   <Card.Header>Native Language: {student.nativeLanguage}</Card.Header>
                   <Card.Header>Country of Birth: {student.countryOfBirth}</Card.Header>
-                  <StudentDelete />
+                  <DeleteStudent />
                 </Card.Content>
                 <Card.Content extra>
                   <Link to="/student/update">Edit Student Information</Link>

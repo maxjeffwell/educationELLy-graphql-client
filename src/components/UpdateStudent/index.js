@@ -55,7 +55,7 @@ const StyledErrorMessage = styled.div`
 const UPDATE_STUDENT_MUTATION = gql`
   mutation($input: UpdateStudentInput) {
       updateStudent(input: $UpdateStudentInput) {
-          input
+          fullName
       }
   }
 `;
@@ -83,10 +83,10 @@ class UpdateStudent extends Component {
     console.log('Updating Student!!');
     console.log(this.state);
     await updateStudentMutation({
-      variables: {
+      variables: { "input": {
         id: this.props.id,
         ...this.state,
-      },
+      }},
     });
     console.log('Updated!!');
   };

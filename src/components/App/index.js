@@ -13,7 +13,6 @@ import SignOut from '../SignOut';
 import Students from '../Students';
 import UpdateStudent from '../UpdateStudent';
 import CreateStudent from '../CreateStudent';
-import DeleteStudent from '../DeleteStudent';
 import withSession from '../Session/withSession';
 import Navigation from '../Navigation';
 
@@ -64,7 +63,6 @@ const App = ({ session, refetch }) => (
     <Route exact path='/dashboard' component={() => <Dashboard />} />
     <Route exact path='/student/new' component={() => <CreateStudent />} />
     <Route exact path='/signout' component={() => <SignOut />} />
-    <Route exact path='/student/delete' render={(props) => <DeleteStudent {...props}/>} />
   </Container>
   </BrowserRouter>
 );
