@@ -4,23 +4,23 @@
   "author": "Jeff Maxwell <maxjeffwell@gmail.com>",
   "license": "GNU GPLv3",
   "dependencies": {
-    "apollo-cache-inmemory": "^1.5.1",
-    "apollo-client": "^2.5.1",
-    "apollo-link": "^1.2.11",
-    "apollo-link-error": "^1.1.10",
-    "apollo-link-http": "^1.5.14",
-    "axios": "^0.18.0",
-    "graphql": "^14.3.1",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link": "^1.2.12",
+    "apollo-link-error": "^1.1.11",
+    "apollo-link-http": "^1.5.15",
+    "axios": "^0.18.1",
+    "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "history": "^4.9.0",
     "react": "^16.8.6",
-    "react-apollo": "^2.5.1",
+    "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.85.0",
-    "styled-components": "^4.2.1",
+    "styled-components": "^4.3.2",
     "webfontloader": "^1.6.28"
   },
   "scripts": {
@@ -36,6 +36,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.10.0"
+    "babel-plugin-styled-components": "^1.10.6"
   }
 }
