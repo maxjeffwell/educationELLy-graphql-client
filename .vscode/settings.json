@@ -1,0 +1,21 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "files.associations": {
+    "*.js": "javascriptreact"
+  },
+  "emmet.includeLanguages": {
+    "javascriptreact": "html"
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true
+}

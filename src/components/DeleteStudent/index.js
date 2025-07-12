@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 
 import { GET_ALL_STUDENTS_QUERY } from '../Students';
 
 const DELETE_STUDENT_MUTATION = gql`
-    mutation($_id: ID!) {
-        deleteStudent(_id: $_id) {
-            _id
-        }
+  mutation ($_id: ID!) {
+    deleteStudent(_id: $_id) {
+      _id
     }
+  }
 `;
 
-class StudentDelete extends Component {
-  onClick() {
-    this.props.deleteStudent({
-      variables: { _id: this.cache.Student._id }
-    });
-    console.log(this.props.student);
-  }
-  render() {
-    return (
-      <button onClick={this.onClick.bind(this)}>Delete Student</button>
-    );
-  }
-}
-
-export default graphql(DELETE_STUDENT_MUTATION, {
-  options: {
+const StudentDelete = ({ studentId }) => {
+  const [deleteStudent, { loading }] = useMutation(DELETE_STUDENT_MUTATION, {
+    refetchQueries: [{ query: GET_ALL_STUDENTS_QUERY }],
     optimisticResponse: {
       deleteStudent: {
-        _id: -1,
-        __typename: 'Mutation'
-      }
-    }, update: {
-      query: GET_ALL_STUDENTS_QUERY
+        _id: studentId,
+        __typename: 'Student',
+      },
     },
-}
-})(StudentDelete);
+  });
 
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this student?')) {
+      try {
+        await deleteStudent({
+          variables: { _id: studentId },
+        });
+      } catch (error) {
+        console.error('Error deleting student:', error);
+      }
+    }
+  };
 
+  return (
+    <button onClick={handleDelete} disabled={loading}>
+      {loading ? 'Deleting...' : 'Delete Student'}
+    </button>
+  );
+};
 
+export default StudentDelete;

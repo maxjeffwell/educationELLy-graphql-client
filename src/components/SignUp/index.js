@@ -1,9 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { Mutation } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
+import React, { Fragment, useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import gql from 'graphql-tag';
-
-import { Form, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
+import {
+  Form,
+  Button,
+  Grid,
+  Segment,
+  Header,
+  Message,
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
@@ -52,7 +58,10 @@ const StyledForm = styled(Form)`
     border-bottom: 2px solid ${props => props.theme.green};
     border-left: 3px solid ${props => props.theme.green};
   }
-  &&& .ui.labeled.input:not([class*="corner labeled"]) .label:first-child + input {
+  &&&
+    .ui.labeled.input:not([class*='corner labeled'])
+    .label:first-child
+    + input {
     color: ${props => props.theme.blue};
     font-family: 'Roboto', 'sans-serif';
     font-weight: bold;
@@ -64,7 +73,7 @@ const StyledForm = styled(Form)`
     border: 2px solid ${props => props.theme.orange};
     border-radius: 5px;
     font-size: 2em;
-    font-family: 'Roboto','sans-serif';
+    font-family: 'Roboto', 'sans-serif';
     color: ${props => props.theme.white};
     margin-top: 15px;
   }
@@ -92,11 +101,11 @@ const StyledMessage = styled(Message)`
     line-height: 30px;
     border-radius: 5px;
     min-width: 420px;
-   }
+  }
 `;
 
 const SIGN_UP = gql`
-  mutation($email: String!, $password: String!) {
+  mutation ($email: String!, $password: String!) {
     signUp(email: $email, password: $password) {
       token
     }
@@ -108,90 +117,89 @@ const INITIAL_STATE = {
   password: '',
 };
 
-const SignUpPage = ({ history, refetch }) => (
-  <Fragment>
-    <SignUpForm history={history} refetch={refetch} />
-  </Fragment>
-);
+const SignUpPage = ({ refetch }) => {
+  const navigate = useNavigate();
+  return (
+    <Fragment>
+      <SignUpForm navigate={navigate} refetch={refetch} />
+    </Fragment>
+  );
+};
 
-class SignUpForm extends Component {
-  state = { ...INITIAL_STATE };
+const SignUpForm = ({ navigate, refetch }) => {
+  const [formData, setFormData] = useState(INITIAL_STATE);
+  const [signUp, { loading, error }] = useMutation(SIGN_UP);
 
-  onChange = event => {
+  const onChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  onSubmit = (event, signUp) => {
-    signUp().then(async ({ data }) => {
-      this.setState({ ...INITIAL_STATE });
-
-      localStorage.setItem('token', data.signUp.token);
-
-      await this.props.refetch();
-      this.props.history.push('/dashboard');
-    });
-
+  const onSubmit = async event => {
     event.preventDefault();
+    try {
+      const { data } = await signUp({ variables: formData });
+      setFormData(INITIAL_STATE);
+      localStorage.setItem('token', data.signUp.token);
+      await refetch();
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Sign up error:', err);
+    }
   };
 
-  render() {
-    const {
-      email,
-      password
-    } = this.state;
+  const { email, password } = formData;
+  const isInvalid = password === '' || email === '';
 
-    const isInvalid =
-      password === '' ||
-      email === '';
-
-    return (
-      <Mutation
-        mutation={SIGN_UP}
-        variables={{ email, password }}
+  return (
+    <div className="signup">
+      <Grid
+        textAlign="center"
+        style={{ height: '100%' }}
+        verticalAlign="middle"
       >
-    {(signUp, { data, loading, error }) => (
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <StyledMessage info>
+            DEMO ACCOUNT AVAILABLE
+            <p>
+              If you prefer not to register at this time, an account for demo
+              purposes is available on the login page.
+            </p>
+          </StyledMessage>
 
-      <div className="signup">
-        <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
-          <Grid.Column style={{ maxWidth: 450 }}>
-            <StyledMessage info>
-              DEMO ACCOUNT AVAILABLE
-              <p>If you prefer not to register at this time, an account for demo purposes is available on the login page.</p>
-            </StyledMessage>
+          <StyledSegment>
+            <StyledHeader as="h1">educationELLy registration</StyledHeader>
+            <StyledForm onSubmit={onSubmit}>
+              <input
+                name="email"
+                type="email"
+                value={email}
+                onChange={onChange}
+                placeholder="Email"
+              />
 
-            <StyledSegment>
-              <StyledHeader as="h1">educationELLy registration</StyledHeader>
-              <StyledForm onSubmit={event => this.onSubmit(event, signUp)}>
+              <input
+                name="password"
+                type="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Password"
+              />
+              <Button disabled={isInvalid || loading} primary type="submit">
+                Register
+              </Button>
 
-                <input name="email"
-                       type="email"
-                       onChange={this.onChange}
-                />
+              <StyledErrorMessage>
+                {error && <ErrorMessage error={error} />}
+              </StyledErrorMessage>
+            </StyledForm>
+          </StyledSegment>
+        </Grid.Column>
+      </Grid>
+    </div>
+  );
+};
 
-                <input name="password"
-                       type="password"
-                       onChange={this.onChange}
-                />
-                <Button disabled={isInvalid || loading} primary type="submit">
-                  Register
-                </Button>
-
-                <StyledErrorMessage>
-                  {error && <ErrorMessage error={error}/>}
-                </StyledErrorMessage>
-
-              </StyledForm>
-            </StyledSegment>
-          </Grid.Column>
-        </Grid>
-      </div>
-    )}
-      </Mutation>
-    );
-  }
-}
-
-export default withRouter(SignUpPage);
+export default SignUpPage;
 
 export { SignUpForm };

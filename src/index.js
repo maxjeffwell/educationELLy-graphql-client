@@ -1,13 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
-import { HttpLink } from 'apollo-link-http';
-import { onError } from 'apollo-link-error';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-
+import { createRoot } from 'react-dom/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+  from,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { ThemeProvider } from 'styled-components';
 
 import 'semantic-ui-css/components/button.css';
@@ -24,24 +25,21 @@ import 'semantic-ui-css/components/input.css';
 import 'semantic-ui-css/components/sidebar.css';
 
 import App from './components/App';
-import { signOut }  from './components/SignOut';
+import { signOut } from './components/SignOut';
 
-const httpLink = new HttpLink({
-  uri: process.env.REACT_APP_API_BASE_URL
+const httpLink = createHttpLink({
+  uri: process.env.REACT_APP_API_BASE_URL,
 });
 
-const authLink = new ApolloLink((operation, forward) => {
-  operation.setContext(({ headers = {} }) => {
-    const token = localStorage.getItem('token');
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
 
-    if (token) {
-      headers = { ...headers, 'x-token': token };
-    }
-
-    return { headers };
-  });
-
-  return forward(operation);
+  return {
+    headers: {
+      ...headers,
+      ...(token && { 'x-token': token }),
+    },
+  };
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -64,14 +62,14 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-const link = ApolloLink.from([authLink, errorLink, httpLink]);
+const link = from([authLink, errorLink, httpLink]);
 
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   link,
   cache,
-  connectToDevTools: true,
+  connectToDevTools: process.env.NODE_ENV === 'development',
 });
 
 const theme = {
@@ -81,11 +79,13 @@ const theme = {
   white: '#f5f5f5',
 };
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <ThemeProvider theme={theme}>
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
-  </ThemeProvider>,
-  document.getElementById('root'),
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </ThemeProvider>
 );

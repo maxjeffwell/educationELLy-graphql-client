@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
 
@@ -18,9 +18,9 @@ import Navigation from '../Navigation';
 
 WebFont.load({
   google: {
-    families: ['Roboto: 400', 'sans-serif']
+    families: ['Roboto: 400', 'sans-serif'],
   },
-  timeout: 2000
+  timeout: 2000,
 });
 
 const GlobalStyle = createGlobalStyle`
@@ -51,19 +51,21 @@ body {
 
 const App = ({ session, refetch }) => (
   <BrowserRouter>
-  <Container>
-    <GlobalStyle />
-    {/*<Header />*/}
-    <Navigation session={session} />
-    <Route exact path='/' component={() => <Landing />} />
-    <Route exact path='/signup' component={() => <SignUpPage refetch={refetch} />} />
-    <Route path='/student/update/' render={(props) => <UpdateStudent {...props} />} />
-    <Route exact path='/students' component={() => <Students />} />
-    <Route exact path='/signin' component={() => <SignInPage refetch={refetch} />} />
-    <Route exact path='/dashboard' component={() => <Dashboard />} />
-    <Route exact path='/student/new' component={() => <CreateStudent />} />
-    <Route exact path='/signout' component={() => <SignOut />} />
-  </Container>
+    <Container>
+      <GlobalStyle />
+      {/*<Header />*/}
+      <Navigation session={session} />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
+        <Route path="/student/update/*" element={<UpdateStudent />} />
+        <Route path="/students" element={<Students />} />
+        <Route path="/signin" element={<SignInPage refetch={refetch} />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/student/new" element={<CreateStudent />} />
+        <Route path="/signout" element={<SignOut />} />
+      </Routes>
+    </Container>
   </BrowserRouter>
 );
 

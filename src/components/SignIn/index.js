@@ -1,8 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
+import React, { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Form, Button, Grid, Segment, Header, Message } from 'semantic-ui-react';
+import {
+  Form,
+  Button,
+  Grid,
+  Segment,
+  Header,
+  Message,
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
@@ -21,14 +28,14 @@ export const StyledMessage = styled(Message)`
     background: ${props => props.theme.white};
     line-height: 30px;
     border-radius: 5px;
-   }
-   &&& p:first-child {
+  }
+  &&& p:first-child {
     margin-top: 10px;
     margin-bottom: 2px;
-   }
-   &&& p:last-child {
+  }
+  &&& p:last-child {
     margin-top: 2px;
-   }
+  }
 `;
 
 export const StyledHeader = styled(Header)`
@@ -46,7 +53,7 @@ export const StyledHeader = styled(Header)`
     height: 50%;
     border-radius: 5px;
   }
-  `;
+`;
 
 export const StyledSegment = styled(Segment)`
   &&& {
@@ -76,7 +83,10 @@ const StyledForm = styled(Form)`
     margin-bottom: 10px;
     margin-top: 12px;
   }
-  &&& .ui.labeled.input:not([class*="corner labeled"]) .label:first-child + input {
+  &&&
+    .ui.labeled.input:not([class*='corner labeled'])
+    .label:first-child
+    + input {
     color: ${props => props.theme.blue};
     font-family: 'Roboto', 'sans-serif';
     font-weight: bold;
@@ -87,7 +97,7 @@ const StyledForm = styled(Form)`
     border: 2px solid ${props => props.theme.orange};
     border-radius: 5px;
     font-size: 2em;
-    font-family: 'Roboto','sans-serif';
+    font-family: 'Roboto', 'sans-serif';
     color: ${props => props.theme.white};
   }
 `;
@@ -101,109 +111,106 @@ const StyledError = styled.div`
 `;
 
 const SIGN_IN = gql`
-  mutation($login: String!, $password: String!) {
+  mutation ($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
       token
     }
   }
 `;
 
-const SignInPage = ({ history, refetch }) => (
-  <Fragment>
-    <SignInForm history={history} refetch={refetch} />
-  </Fragment>
-);
+const SignInPage = ({ refetch }) => {
+  const navigate = useNavigate();
+  return (
+    <Fragment>
+      <SignInForm navigate={navigate} refetch={refetch} />
+    </Fragment>
+  );
+};
 
 const INITIAL_STATE = {
   login: '',
   password: '',
 };
 
-class SignInForm extends Component {
-  state = { ...INITIAL_STATE };
+const SignInForm = ({ navigate, refetch }) => {
+  const [formData, setFormData] = useState(INITIAL_STATE);
+  const [signIn, { loading, error }] = useMutation(SIGN_IN);
 
-  onChange = event => {
+  const onChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  onSubmit = (event, signIn) => {
-    signIn().then(async ({ data }) => {
-      this.setState({ ...INITIAL_STATE });
-
-      localStorage.setItem('token', data.signIn.token);
-
-      await this.props.refetch();
-
-      this.props.history.push('/dashboard');
-    });
+  const onSubmit = async event => {
     event.preventDefault();
+    try {
+      const { data } = await signIn({ variables: formData });
+      setFormData(INITIAL_STATE);
+      localStorage.setItem('token', data.signIn.token);
+      await refetch();
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Sign in error:', err);
+    }
   };
 
-  render() {
-    const { login, password } = this.state;
+  const { login, password } = formData;
+  const isInvalid = login === '' || password === '';
 
-    const isInvalid =
-       login === '' || password === '';
+  return (
+    <div className="login">
+      <Grid
+        textAlign="center"
+        style={{ height: '100%' }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <StyledMessage info>
+            Please log in with your account email and password. If you have
+            neither registered nor been assigned account credentials, you are
+            welcome to use the available demo account to log in.
+          </StyledMessage>
 
-    return (
-      <Mutation mutation={SIGN_IN} variables={{ login, password }}>
-        {(signIn, { data, loading, error }) => (
+          <StyledMessage info>
+            DEMO ACCOUNT AVAILABLE
+            <p>Email: demo</p>
+            <p>Password: demopassword</p>
+          </StyledMessage>
 
-          <div className="login">
-            <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
-              <Grid.Column style={{ maxWidth: 450 }}>
+          <StyledSegment stacked>
+            <StyledHeader as="h1">educationELLy login</StyledHeader>
 
-                <StyledMessage info>
-                  Please log in with your account email and password. If you have neither registered
-                  nor been assigned account credentials, you are welcome to use the available demo account to log in.
-                </StyledMessage>
+            <StyledForm onSubmit={onSubmit}>
+              <input
+                name="login"
+                value={login}
+                onChange={onChange}
+                type="text"
+                placeholder="Email"
+              />
+              <input
+                name="password"
+                value={password}
+                onChange={onChange}
+                type="password"
+                placeholder="Password"
+              />
 
-                <StyledMessage info>
-                  DEMO ACCOUNT AVAILABLE
-                  <p>Email: demo</p>
-                  <p>Password: demopassword</p>
-                </StyledMessage>
+              <Button disabled={isInvalid || loading} primary type="submit">
+                Sign In
+              </Button>
 
-                  <StyledSegment stacked>
-                    <StyledHeader as="h1">educationELLy login</StyledHeader>
+              <StyledError>
+                {error && <ErrorMessage error={error} />}
+              </StyledError>
+            </StyledForm>
+          </StyledSegment>
+        </Grid.Column>
+      </Grid>
+    </div>
+  );
+};
 
-          <StyledForm onSubmit={event => this.onSubmit(event, signIn)}>
-            <input
-              name="login"
-              value={login}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Email"
-            />
-            <input
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Password"
-            />
-
-            <Button disabled={isInvalid || loading} primary type="submit">
-            Sign In
-            </Button>
-
-            <StyledError>
-            {error && <ErrorMessage error={error}/>}
-            </StyledError>
-
-          </StyledForm>
-                  </StyledSegment>
-              </Grid.Column>
-            </Grid>
-          </div>
-        )}
-      </Mutation>
-    );
-  }
-}
-
-export default withRouter(SignInPage);
+export default SignInPage;
 
 export { SignInForm };
-

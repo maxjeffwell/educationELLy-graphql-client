@@ -7,7 +7,7 @@ import Footer from '../Footer';
 const StyledContainer = styled(Container)`
   &&& {
     margin-bottom: 20px;
-    font-size: .75em;
+    font-size: 0.75em;
   }
 `;
 
@@ -42,20 +42,24 @@ const StyledParagraph = styled.p`
 
 const Landing = () => (
   <StyledContainer text>
-    <StyledHeader as='h1'>
-      educationELLy
-    </StyledHeader>
+    <StyledHeader as="h1">educationELLy</StyledHeader>
     <StyledParagraph>
       <li>Student data at your fingertips</li>
       <li>Quickly access student lists</li>
       <li>Improve collaboration and manage workflows</li>
-      <li>If you have not already logged in, click the Login link in the right hand corner and
-        enter the demo account information to access your student list and update student ELL information!</li>
-      <li>To create an account, please click on the Register button in the right hand corner of the landing page. Using the demo account, you'll be able to access all of educationELLy's current features</li>
+      <li>
+        If you have not already logged in, click the Login link in the right
+        hand corner and enter the demo account information to access your
+        student list and update student ELL information!
+      </li>
+      <li>
+        To create an account, please click on the Register button in the right
+        hand corner of the landing page. Using the demo account, you'll be able
+        to access all of educationELLy's current features
+      </li>
     </StyledParagraph>
     <Footer />
   </StyledContainer>
 );
 
 export default Landing;
-

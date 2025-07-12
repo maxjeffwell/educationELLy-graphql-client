@@ -6,11 +6,11 @@ import styled from 'styled-components';
 const StyledContainer = styled(Container)`
   &&& {
     font-size: 1.5em;
-    font-family: "Roboto", "sans-serif";
+    font-family: 'Roboto', 'sans-serif';
     font-weight: bold;
     color: ${props => props.theme.blue};
   }
-  `;
+`;
 
 const Dashboard = () => (
   <div id="dashboard">

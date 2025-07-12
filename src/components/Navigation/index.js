@@ -11,16 +11,18 @@ const Navigation = ({ session }) => (
   </div>
 );
 
-const NavigationAuth = ({ session }) =>
+const NavigationAuth = ({ session }) => (
   <div className="header">
-      <Link to="/dashboard">Teacher Dashboard({session.me.username})</Link>
-      <Link to="/students">Student List</Link>
-  </div>;
+    <Link to="/dashboard">Teacher Dashboard({session.me.username})</Link>
+    <Link to="/students">Student List</Link>
+  </div>
+);
 
-const NavigationNonAuth = () =>
+const NavigationNonAuth = () => (
   <div className="Nav-Bar" role="navigation">
-      <Link to="/signin">Log In</Link>
+    <Link to="/signin">Log In</Link>
     <Link to="/signin">Register</Link>
-  </div>;
+  </div>
+);
 
 export default Navigation;
