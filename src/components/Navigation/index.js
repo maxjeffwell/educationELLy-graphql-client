@@ -11,7 +11,7 @@ const Navigation = ({ session }) => (
   </div>
 );
 
-const NavigationAuth = ({ session }) => (
+const NavigationAuth = () => (
   <div className="header">
     {/*<Link to="/dashboard">Teacher Dashboard({session.me.username})</Link>*/}
     {/*<Link to="/students">Student List</Link>*/}
