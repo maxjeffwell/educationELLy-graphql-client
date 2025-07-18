@@ -55,7 +55,7 @@ const CreateStudent = () => {
       setFormData(INITIAL_STATE);
       navigate('/students');
     } catch (error) {
-      console.error('Error creating student:', error);
+      // Handle error silently or show user notification
     }
   };
 

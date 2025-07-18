@@ -94,7 +94,7 @@ const UpdateStudent = ({ studentId }) => {
       });
       alert('Student updated successfully!');
     } catch (err) {
-      console.error('Error updating student:', err);
+      // Handle error silently or show user notification
     }
   };
 

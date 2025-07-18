@@ -144,7 +144,7 @@ const SignUpForm = ({ navigate, refetch }) => {
       await refetch();
       navigate('/dashboard');
     } catch (err) {
-      console.error('Sign up error:', err);
+      // Handle error silently or show user notification
     }
   };
 

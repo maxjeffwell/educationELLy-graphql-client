@@ -150,7 +150,7 @@ const SignInForm = ({ navigate, refetch }) => {
       await refetch();
       navigate('/dashboard');
     } catch (err) {
-      console.error('Sign in error:', err);
+      // Handle error silently or show user notification
     }
   };
 

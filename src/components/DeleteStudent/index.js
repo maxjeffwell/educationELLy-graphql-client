@@ -30,7 +30,7 @@ const StudentDelete = ({ studentId }) => {
           variables: { _id: studentId },
         });
       } catch (error) {
-        console.error('Error deleting student:', error);
+        // Handle error silently or show user notification
       }
     }
   };

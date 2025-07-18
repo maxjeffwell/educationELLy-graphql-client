@@ -25,6 +25,7 @@ import 'semantic-ui-css/components/input.css';
 import 'semantic-ui-css/components/sidebar.css';
 
 import App from './components/App';
+import ErrorBoundary from './components/ErrorBoundary';
 import { signOut } from './components/SignOut';
 
 const httpLink = createHttpLink({
@@ -45,8 +46,6 @@ const authLink = setContext((_, { headers }) => {
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
-      console.log('GraphQL error', message);
-
       if (message === 'You are not authenticated. Please sign in.') {
         signOut(client);
       }
@@ -54,8 +53,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 
   if (networkError) {
-    console.log('Network error', networkError);
-
     if (networkError.statusCode === 401) {
       signOut(client);
     }
@@ -83,9 +80,11 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <ThemeProvider theme={theme}>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </ThemeProvider>
+  <ErrorBoundary>
+    <ThemeProvider theme={theme}>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </ThemeProvider>
+  </ErrorBoundary>
 );
