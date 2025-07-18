@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
 import DeleteStudent from '../DeleteStudent';
+import Dashboard from '../Dashboard/index.js';
 
 const StyledCard = styled(Card)`
   &&& .content {
@@ -54,31 +55,38 @@ const Students = React.memo(() => {
   if (error) return <ErrorMessage error={error} />;
 
   return (
-    <Card.Group itemsPerRow={4}>
-      {data.students.map(student => (
-        <StyledCard className="student-card" key={student._id}>
-          <Card.Content>
-            <Card.Header>Student: {student.fullName}</Card.Header>
-            <Card.Header>School: {student.school}</Card.Header>
-            <Card.Header>Teacher: {student.teacher}</Card.Header>
-            <Card.Header>Grade: {student.gradeLevel}</Card.Header>
-            <Card.Header>ELL Status: {student.ellStatus}</Card.Header>
-            <Card.Header>Composite Level: {student.compositeLevel}</Card.Header>
-            <Card.Header>Designation: {student.designation}</Card.Header>
-            <Card.Header>Native Language: {student.nativeLanguage}</Card.Header>
-            <Card.Header>
-              Country of Birth: {student.countryOfBirth}
-            </Card.Header>
-            <DeleteStudent studentId={student._id} />
-          </Card.Content>
-          <Card.Content extra>
-            <Link to={`/student/update/${student._id}`}>
-              Edit Student Information
-            </Link>
-          </Card.Content>
-        </StyledCard>
-      ))}
-    </Card.Group>
+    <>
+      <Dashboard />
+      <Card.Group itemsPerRow={4}>
+        {data.students.map(student => (
+          <StyledCard className="student-card" key={student._id}>
+            <Card.Content>
+              <Card.Header>Student: {student.fullName}</Card.Header>
+              <Card.Header>School: {student.school}</Card.Header>
+              <Card.Header>Teacher: {student.teacher}</Card.Header>
+              <Card.Header>Grade: {student.gradeLevel}</Card.Header>
+              <Card.Header>ELL Status: {student.ellStatus}</Card.Header>
+              <Card.Header>
+                Composite Level: {student.compositeLevel}
+              </Card.Header>
+              <Card.Header>Designation: {student.designation}</Card.Header>
+              <Card.Header>
+                Native Language: {student.nativeLanguage}
+              </Card.Header>
+              <Card.Header>
+                Country of Birth: {student.countryOfBirth}
+              </Card.Header>
+              <DeleteStudent studentId={student._id} />
+            </Card.Content>
+            <Card.Content extra>
+              <Link to={`/student/update/${student._id}`}>
+                Edit Student Information
+              </Link>
+            </Card.Content>
+          </StyledCard>
+        ))}
+      </Card.Group>
+    </>
   );
 });
 

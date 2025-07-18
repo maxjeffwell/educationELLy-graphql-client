@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { useApolloClient } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { StyledMessage } from '../SignIn';
-import history from '../../constants/history';
 
 const StyledButton = styled.button`
   border: 2px solid ${props => props.theme.orange};
@@ -15,16 +15,22 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export const signOut = client => {
-  localStorage.removeItem('token');
+const CenteredContainer = styled.div`
+  text-align: center;
+  margin-top: 20px;
+`;
+
+export const signOut = (client, navigate) => {
+  sessionStorage.removeItem('token');
   client.resetStore();
-  history.push('/signin');
+  navigate('/signin');
 };
 
 const SignOutButton = () => {
   const client = useApolloClient();
+  const navigate = useNavigate();
   return (
-    <StyledButton type="button" onClick={() => signOut(client)}>
+    <StyledButton type="button" onClick={() => signOut(client, navigate)}>
       Return to Login Page
     </StyledButton>
   );
@@ -33,7 +39,9 @@ const SignOutButton = () => {
 const SignOut = () => (
   <Fragment>
     <StyledMessage success>You have successfully logged out.</StyledMessage>
-    <SignOutButton />
+    <CenteredContainer>
+      <SignOutButton />
+    </CenteredContainer>
   </Fragment>
 );
 

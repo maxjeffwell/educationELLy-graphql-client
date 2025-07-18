@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 const Navigation = ({ session }) => (
   <div className="route types" role="navigation">
@@ -14,8 +13,8 @@ const Navigation = ({ session }) => (
 
 const NavigationAuth = ({ session }) => (
   <div className="header">
-    <Link to="/dashboard">Teacher Dashboard({session.me.username})</Link>
-    <Link to="/students">Student List</Link>
+    {/*<Link to="/dashboard">Teacher Dashboard({session.me.username})</Link>*/}
+    {/*<Link to="/students">Student List</Link>*/}
   </div>
 );
 

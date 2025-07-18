@@ -146,7 +146,7 @@ const SignInForm = ({ navigate, refetch }) => {
     try {
       const { data } = await signIn({ variables: formData });
       setFormData(INITIAL_STATE);
-      localStorage.setItem('token', data.signIn.token);
+      sessionStorage.setItem('token', data.signIn.token);
       await refetch();
       navigate('/dashboard');
     } catch (err) {
@@ -173,7 +173,7 @@ const SignInForm = ({ navigate, refetch }) => {
 
           <StyledMessage info>
             DEMO ACCOUNT AVAILABLE
-            <p>Email: demo</p>
+            <p>Email: demo@demo.example</p>
             <p>Password: demopassword</p>
           </StyledMessage>
 

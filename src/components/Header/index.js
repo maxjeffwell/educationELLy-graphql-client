@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -33,7 +34,7 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const Header = () => (
+const Header = ({ session }) => (
   <StyledMenu>
     <Menu.Menu position="left">
       <Menu.Item as="header"></Menu.Item>
@@ -44,10 +45,26 @@ const Header = () => (
       </Menu.Item>
     </Menu.Menu>
     <Menu.Menu position="right">
-      <Menu.Item as={Link} name="Register" to="/Signup"></Menu.Item>
-      <Menu.Item as={Link} name="Login" to="/Signin"></Menu.Item>
+      {session && session.me ? (
+        <Menu.Item as={Link} name="Logout" to="/signout">
+          Logout
+        </Menu.Item>
+      ) : (
+        <>
+          <Menu.Item as={Link} name="Register" to="/Signup"></Menu.Item>
+          <Menu.Item as={Link} name="Login" to="/Signin"></Menu.Item>
+        </>
+      )}
     </Menu.Menu>
   </StyledMenu>
 );
+
+Header.propTypes = {
+  session: PropTypes.shape({
+    me: PropTypes.shape({
+      username: PropTypes.string,
+    }),
+  }),
+};
 
 export default Header;

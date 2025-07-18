@@ -54,7 +54,7 @@ const App = ({ session, refetch }) => (
   <BrowserRouter>
     <Container>
       <GlobalStyle />
-      <Header />
+      <Header session={session} />
       <Navigation session={session} />
       <Routes>
         <Route path="/" element={<Landing />} />

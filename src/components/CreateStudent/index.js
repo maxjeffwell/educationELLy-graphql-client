@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Grid,
+  Segment,
+  Header,
+  Container,
+} from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
+import styled from 'styled-components';
 
 import { GET_ALL_STUDENTS_QUERY } from '../Students';
+import Dashboard from '../Dashboard/index.js';
 
 const CREATE_STUDENT_MUTATION = gql`
   mutation createStudent($input: NewStudentInput!) {
@@ -18,6 +27,69 @@ const CREATE_STUDENT_MUTATION = gql`
       designation
       countryOfBirth
     }
+  }
+`;
+
+const StyledContainer = styled(Container)`
+  &&& {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+`;
+
+const StyledSegment = styled(Segment)`
+  &&& {
+    border: 4px solid ${props => props.theme.orange};
+    border-radius: 5px;
+    padding: 30px;
+    background: ${props => props.theme.white};
+    max-width: 800px;
+    margin: 0 auto;
+  }
+`;
+
+const StyledHeader = styled(Header)`
+  &&& {
+    margin-bottom: 30px;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 2.5em;
+    font-weight: bold;
+    color: ${props => props.theme.blue};
+    background: ${props => props.theme.green};
+    border: 4px solid ${props => props.theme.orange};
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+`;
+
+const StyledForm = styled(Form)`
+  &&& .field {
+    margin-bottom: 20px;
+  }
+  &&& .field > label {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: ${props => props.theme.blue};
+    font-family: 'Roboto', 'sans-serif';
+    margin-bottom: 8px;
+  }
+  &&& .ui.input > input {
+    border: 3px solid ${props => props.theme.green};
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px;
+  }
+  &&& .ui.button {
+    background: ${props => props.theme.blue};
+    color: ${props => props.theme.white};
+    border: 2px solid ${props => props.theme.orange};
+    border-radius: 5px;
+    font-size: 1.3em;
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px 24px;
+    margin-top: 20px;
   }
 `;
 
@@ -59,83 +131,170 @@ const CreateStudent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="fullName"
-        type="text"
-        value={formData.fullName}
-        placeholder="Student Name"
-        onChange={handleChange}
-      />
+    <>
+      <Dashboard />
+      <StyledContainer>
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 800 }}>
+            <StyledSegment stacked>
+              <StyledHeader as="h1">Create New Student</StyledHeader>
 
-      <input
-        name="school"
-        type="text"
-        value={formData.school}
-        placeholder="School Name"
-        onChange={handleChange}
-      />
+              <StyledForm onSubmit={handleSubmit}>
+                <Grid stackable>
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="fullName">Student Full Name</label>
+                        <Form.Input
+                          id="fullName"
+                          name="fullName"
+                          type="text"
+                          value={formData.fullName}
+                          placeholder="Enter student's full name"
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="school">School Name</label>
+                        <Form.Input
+                          id="school"
+                          name="school"
+                          type="text"
+                          value={formData.school}
+                          placeholder="Enter school name"
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <input
-        name="teacher"
-        type="text"
-        value={formData.teacher}
-        placeholder="Teacher Name"
-        onChange={handleChange}
-      />
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="teacher">Teacher Name</label>
+                        <Form.Input
+                          id="teacher"
+                          name="teacher"
+                          type="text"
+                          value={formData.teacher}
+                          placeholder="Enter teacher's name"
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="gradeLevel">Grade Level</label>
+                        <Form.Input
+                          id="gradeLevel"
+                          name="gradeLevel"
+                          type="text"
+                          value={formData.gradeLevel}
+                          placeholder="Enter grade level"
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <input
-        name="gradeLevel"
-        type="text"
-        value={formData.gradeLevel}
-        placeholder="Grade Level"
-        onChange={handleChange}
-      />
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="nativeLanguage">Native Language</label>
+                        <Form.Input
+                          id="nativeLanguage"
+                          name="nativeLanguage"
+                          type="text"
+                          value={formData.nativeLanguage}
+                          placeholder="Enter native language"
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="countryOfBirth">Country of Birth</label>
+                        <Form.Input
+                          id="countryOfBirth"
+                          name="countryOfBirth"
+                          type="text"
+                          value={formData.countryOfBirth}
+                          placeholder="Enter country of birth"
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <input
-        name="nativeLanguage"
-        type="text"
-        value={formData.nativeLanguage}
-        placeholder="Native Language"
-        onChange={handleChange}
-      />
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="ellStatus">ELL Status</label>
+                        <Form.Input
+                          id="ellStatus"
+                          name="ellStatus"
+                          type="text"
+                          value={formData.ellStatus}
+                          placeholder="Enter current ELL status"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="compositeLevel">Composite Level</label>
+                        <Form.Input
+                          id="compositeLevel"
+                          name="compositeLevel"
+                          type="text"
+                          value={formData.compositeLevel}
+                          placeholder="Enter composite level"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <input
-        name="ellStatus"
-        type="text"
-        value={formData.ellStatus}
-        placeholder="Current ELL Status"
-        onChange={handleChange}
-      />
+                  <Grid.Row columns={1}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="designation">Designation</label>
+                        <Form.Input
+                          id="designation"
+                          name="designation"
+                          type="text"
+                          value={formData.designation}
+                          placeholder="Enter current designation"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
 
-      <input
-        name="compositeLevel"
-        type="text"
-        value={formData.compositeLevel}
-        placeholder="Composite Level"
-        onChange={handleChange}
-      />
-
-      <input
-        name="designation"
-        type="text"
-        value={formData.designation}
-        placeholder="Current Designation"
-        onChange={handleChange}
-      />
-
-      <input
-        name="countryOfBirth"
-        type="text"
-        value={formData.countryOfBirth}
-        placeholder="Country of Birth"
-        onChange={handleChange}
-      />
-
-      <Button type="submit" disabled={loading}>
-        {loading ? 'Creating...' : 'Create Student'}
-      </Button>
-    </form>
+                <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                  <Button type="submit" disabled={loading} primary size="large">
+                    {loading ? 'Creating Student...' : 'Create Student'}
+                  </Button>
+                </div>
+              </StyledForm>
+            </StyledSegment>
+          </Grid.Column>
+        </Grid>
+      </StyledContainer>
+    </>
   );
 };
 

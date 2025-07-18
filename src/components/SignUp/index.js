@@ -140,7 +140,7 @@ const SignUpForm = ({ navigate, refetch }) => {
     try {
       const { data } = await signUp({ variables: formData });
       setFormData(INITIAL_STATE);
-      localStorage.setItem('token', data.signUp.token);
+      sessionStorage.setItem('token', data.signUp.token);
       await refetch();
       navigate('/dashboard');
     } catch (err) {
