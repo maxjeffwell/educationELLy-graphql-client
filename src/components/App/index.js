@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Container } from 'semantic-ui-react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
@@ -68,5 +69,14 @@ const App = ({ session, refetch }) => (
     </Container>
   </BrowserRouter>
 );
+
+App.propTypes = {
+  session: PropTypes.shape({
+    me: PropTypes.shape({
+      username: PropTypes.string,
+    }),
+  }),
+  refetch: PropTypes.func,
+};
 
 export default withSession(App);

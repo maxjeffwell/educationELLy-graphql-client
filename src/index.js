@@ -45,7 +45,7 @@ const authLink = setContext((_, { headers }) => {
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
+    graphQLErrors.forEach(({ message }) => {
       if (message === 'You are not authenticated. Please sign in.') {
         signOut(client);
       }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const Navigation = ({ session }) => (
@@ -24,5 +25,21 @@ const NavigationNonAuth = () => (
     <Link to="/signin">Register</Link>
   </div>
 );
+
+Navigation.propTypes = {
+  session: PropTypes.shape({
+    me: PropTypes.shape({
+      username: PropTypes.string,
+    }),
+  }),
+};
+
+NavigationAuth.propTypes = {
+  session: PropTypes.shape({
+    me: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default Navigation;

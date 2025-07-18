@@ -1,6 +1,5 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
 import styled from 'styled-components';

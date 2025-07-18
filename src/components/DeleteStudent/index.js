@@ -1,6 +1,6 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
+import PropTypes from 'prop-types';
+import { useMutation, gql } from '@apollo/client';
 
 import { GET_ALL_STUDENTS_QUERY } from '../Students';
 
@@ -40,6 +40,10 @@ const StudentDelete = ({ studentId }) => {
       {loading ? 'Deleting...' : 'Delete Student'}
     </button>
   );
+};
+
+StudentDelete.propTypes = {
+  studentId: PropTypes.string.isRequired,
 };
 
 export default StudentDelete;

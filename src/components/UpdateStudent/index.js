@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
+import { useMutation, gql } from '@apollo/client';
 import { Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -172,6 +172,10 @@ const UpdateStudent = ({ studentId }) => {
       </StyledErrorMessage>
     </StyledForm>
   );
+};
+
+UpdateStudent.propTypes = {
+  studentId: PropTypes.string.isRequired,
 };
 
 export default UpdateStudent;

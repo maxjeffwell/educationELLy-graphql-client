@@ -54,8 +54,8 @@ const Landing = () => (
       </li>
       <li>
         To create an account, please click on the Register button in the right
-        hand corner of the landing page. Using the demo account, you'll be able
-        to access all of educationELLy's current features
+        hand corner of the landing page. Using the demo account, you&apos;ll be
+        able to access all of educationELLy&apos;s current features
       </li>
     </StyledParagraph>
     <Footer />

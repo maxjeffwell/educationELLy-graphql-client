@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation, gql } from '@apollo/client';
 import {
   Form,
   Button,
@@ -209,6 +209,15 @@ const SignInForm = ({ navigate, refetch }) => {
       </Grid>
     </div>
   );
+};
+
+SignInPage.propTypes = {
+  refetch: PropTypes.func.isRequired,
+};
+
+SignInForm.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default SignInPage;
