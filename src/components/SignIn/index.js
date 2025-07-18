@@ -196,7 +196,12 @@ const SignInForm = ({ navigate, refetch }) => {
                 placeholder="Password"
               />
 
-              <Button disabled={isInvalid || loading} primary type="submit">
+              <Button
+                disabled={isInvalid || loading}
+                primary
+                type="submit"
+                style={{ marginTop: '20px' }}
+              >
                 Sign In
               </Button>
 

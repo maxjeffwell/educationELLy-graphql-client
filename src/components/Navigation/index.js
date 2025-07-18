@@ -21,8 +21,8 @@ const NavigationAuth = ({ session }) => (
 
 const NavigationNonAuth = () => (
   <div className="Nav-Bar" role="navigation">
-    <Link to="/signin">Log In</Link>
-    <Link to="/signin">Register</Link>
+    {/*<Link to="/signin">Log In</Link>*/}
+    {/*<Link to="/signin">Register</Link>*/}
   </div>
 );
 

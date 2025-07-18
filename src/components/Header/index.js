@@ -39,8 +39,8 @@ const Header = () => (
       <Menu.Item as="header"></Menu.Item>
     </Menu.Menu>
     <Menu.Menu>
-      <Menu.Item as={Link} name="educationelly" to="/">
-        educationELLy
+      <Menu.Item as={Link} name="About educationelly" to="/">
+        About Us
       </Menu.Item>
     </Menu.Menu>
     <Menu.Menu position="right">

@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
 
-// import Header from '../Header';
+import Header from '../Header';
 import Landing from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
@@ -54,7 +54,7 @@ const App = ({ session, refetch }) => (
   <BrowserRouter>
     <Container>
       <GlobalStyle />
-      {/*<Header />*/}
+      <Header />
       <Navigation session={session} />
       <Routes>
         <Route path="/" element={<Landing />} />
