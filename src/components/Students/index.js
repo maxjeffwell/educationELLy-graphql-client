@@ -72,7 +72,9 @@ const Students = React.memo(() => {
             <DeleteStudent studentId={student._id} />
           </Card.Content>
           <Card.Content extra>
-            <Link to="/student/update">Edit Student Information</Link>
+            <Link to={`/student/update/${student._id}`}>
+              Edit Student Information
+            </Link>
           </Card.Content>
         </StyledCard>
       ))}

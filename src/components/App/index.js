@@ -59,7 +59,7 @@ const App = ({ session, refetch }) => (
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
-        <Route path="/student/update/*" element={<UpdateStudent />} />
+        <Route path="/student/update/:studentId" element={<UpdateStudent />} />
         <Route path="/students" element={<Students />} />
         <Route path="/signin" element={<SignInPage refetch={refetch} />} />
         <Route path="/dashboard" element={<Dashboard />} />

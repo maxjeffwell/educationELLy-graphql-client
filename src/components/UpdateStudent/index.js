@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import { Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -61,7 +61,8 @@ const UPDATE_STUDENT_MUTATION = gql`
   }
 `;
 
-const UpdateStudent = ({ studentId }) => {
+const UpdateStudent = () => {
+  const { studentId } = useParams();
   const [formData, setFormData] = useState({
     fullName: '',
     school: '',
@@ -172,10 +173,6 @@ const UpdateStudent = ({ studentId }) => {
       </StyledErrorMessage>
     </StyledForm>
   );
-};
-
-UpdateStudent.propTypes = {
-  studentId: PropTypes.string.isRequired,
 };
 
 export default UpdateStudent;
