@@ -17,7 +17,8 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.5",
     "styled-components": "^4.4.0",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "serve": "^14.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,7 +31,8 @@
     "format:check": "prettier --check src/**/*.{js,jsx,css,md}",
     "type-check": "echo 'TypeScript not configured yet'",
     "quality": "npm run lint && npm run format:check && npm run type-check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "heroku-postbuild": "npm run build"
   },
   "browserslist": [
     ">0.2%",
