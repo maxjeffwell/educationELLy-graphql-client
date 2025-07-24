@@ -410,3 +410,24 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Built with Create React App
 - UI components from Semantic UI React
 - GraphQL powered by Apollo Client
+
+## Meta
+
+**Author**: Jeff Maxwell  
+**Repository**: [educationELLy-graphql](https://github.com/maxjeffwell/educationELLy-graphql)  
+**Client**: React GraphQL Client  
+**License**: MIT  
+**Version**: 0.1.0  
+**Status**: Development  
+
+### Project Links
+
+- **Backend Repository**: [educationELLy-graphql-server](https://github.com/maxjeffwell/educationELLy-graphql/tree/master/educationELLy-graphql-server)
+- **Live Demo**: [educationELLy GraphQL client](https://educationelly-client-graphql-176ac5044d94.herokuapp.com/)
+- **Issue Tracker**: [GitHub Issues](https://github.com/maxjeffwell/educationELLy-graphql/issues)
+
+### Contact
+
+- **Email**: maxjeffwell@gmail.com
+- **GitHub**: [@maxjeffwell](https://github.com/maxjeffwell)
+- **Portfolio:** [https://www.el-jefe.me](https://www.el-jefe.me)
