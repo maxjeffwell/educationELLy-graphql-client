@@ -26,6 +26,8 @@ const StyledDeleteButton = styled.button`
   box-sizing: border-box;
   white-space: nowrap;
   flex-shrink: 0;
+  font-size: 14px;
+  line-height: 1;
 
   &:hover {
     background: ${props => props.theme.green};
