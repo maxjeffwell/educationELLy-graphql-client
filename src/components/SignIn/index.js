@@ -211,9 +211,11 @@ const SignInForm = ({ navigate, refetch }) => {
                 Sign In
               </Button>
 
-              <StyledError>
-                {error && <ErrorMessage error={error} />}
-              </StyledError>
+              {error && (
+                <StyledError>
+                  <ErrorMessage error={error} />
+                </StyledError>
+              )}
             </StyledForm>
           </StyledSegment>
         </Grid.Column>
