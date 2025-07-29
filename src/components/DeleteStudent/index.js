@@ -131,7 +131,20 @@ const StudentDelete = ({ studentId }) => {
             errorMessage = serverError.message;
 
             // Handle internal server errors with more helpful messaging
-            if (serverError.message === 'Internal server error') {
+            console.error('Checking server error message:', {
+              message: serverError.message,
+              messageType: typeof serverError.message,
+              messageLength: serverError.message?.length,
+              exactMatch: serverError.message === 'Internal server error',
+              trimmedMatch:
+                serverError.message?.trim() === 'Internal server error',
+            });
+
+            if (
+              serverError.message === 'Internal server error' ||
+              serverError.message?.trim() === 'Internal server error' ||
+              serverError.message?.includes('Internal server error')
+            ) {
               console.error('Internal server error details:', {
                 studentId: studentId,
                 errorCode: serverError.extensions?.code,
