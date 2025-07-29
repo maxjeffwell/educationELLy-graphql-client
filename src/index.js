@@ -53,7 +53,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 
   if (networkError) {
-    if (networkError.statusCode === 401) {
+    if (networkError.statusCode === 401 || networkError.statusCode === 400) {
       signOut(client);
     }
   }
