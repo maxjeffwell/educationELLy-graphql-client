@@ -9,6 +9,7 @@ const StyledMenu = styled(Menu)`
     display: flex;
     border: 2px solid ${props => props.theme.orange};
     border-radius: 5px;
+    margin-top: 20px;
     margin-bottom: 25px;
     flex-wrap: nowrap;
     min-width: 320px;
