@@ -41,8 +41,8 @@ const StyledDeleteButton = styled.button`
 `;
 
 const DELETE_STUDENT_MUTATION = gql`
-  mutation deleteStudent($_id: ID!) {
-    deleteStudent(_id: $_id) {
+  mutation deleteStudent($id: ID!) {
+    deleteStudent(id: $id) {
       _id
     }
   }
@@ -63,7 +63,7 @@ const StudentDelete = ({ studentId }) => {
     if (window.confirm('Are you sure you want to delete this student?')) {
       try {
         await deleteStudent({
-          variables: { _id: studentId },
+          variables: { id: studentId },
         });
         console.log('Student deleted successfully');
       } catch (error) {
