@@ -43,6 +43,16 @@ const Header = ({ session }) => (
       <Menu.Item as={Link} name="About educationelly" to="/">
         About Us
       </Menu.Item>
+      {session && session.me && (
+        <>
+          <Menu.Item as={Link} name="Dashboard" to="/dashboard">
+            Teacher Dashboard({session.me.username})
+          </Menu.Item>
+          <Menu.Item as={Link} name="Students" to="/students">
+            Student List
+          </Menu.Item>
+        </>
+      )}
     </Menu.Menu>
     <Menu.Menu position="right">
       {session && session.me ? (

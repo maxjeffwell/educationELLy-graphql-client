@@ -15,7 +15,6 @@ import Students from '../Students';
 import UpdateStudent from '../UpdateStudent';
 import CreateStudent from '../CreateStudent';
 import withSession from '../Session/withSession';
-import Navigation from '../Navigation';
 
 WebFont.load({
   google: {
@@ -55,7 +54,6 @@ const App = ({ session, refetch }) => (
     <Container>
       <GlobalStyle />
       <Header session={session} />
-      <Navigation session={session} />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
