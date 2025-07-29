@@ -61,18 +61,26 @@ const StudentDelete = ({ studentId }) => {
 
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this student?')) {
+      console.log('Attempting to delete student with ID:', studentId);
+      console.log('Variables being sent:', { _id: studentId });
       try {
-        await deleteStudent({
+        const result = await deleteStudent({
           variables: {
             _id: studentId,
           },
         });
+        console.log('Delete mutation result:', result);
         console.log('Student deleted successfully');
+        alert('Student deleted successfully!');
       } catch (error) {
         console.error('Delete error:', error);
         console.error('Error message:', error.message);
         console.error('Error details:', error.graphQLErrors);
         console.error('Network error:', error.networkError);
+        if (error.networkError) {
+          console.error('Network error status:', error.networkError.statusCode);
+          console.error('Network error response:', error.networkError.result);
+        }
         alert(`Error deleting student: ${error.message}`);
       }
     }
