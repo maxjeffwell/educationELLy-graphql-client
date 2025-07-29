@@ -95,20 +95,51 @@ const StudentDelete = ({ studentId }) => {
         if (error.networkError) {
           console.error('Network error status:', error.networkError.statusCode);
           console.error('Network error response:', error.networkError.result);
+
+          // Log the full error response for debugging
+          if (error.networkError.result) {
+            console.error(
+              'Full network error result:',
+              JSON.stringify(error.networkError.result, null, 2)
+            );
+          }
         }
 
-        // Handle specific error cases
-        if (error.message.includes('Internal server error')) {
-          alert(
-            'Server error occurred while deleting student. This may be due to:\n' +
-              '- Student not found in database\n' +
-              '- Student referenced by other records\n' +
-              '- Database connectivity issues\n\n' +
-              'Please try again later or contact support.'
+        if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+          console.error(
+            'GraphQL errors:',
+            error.graphQLErrors.map(err => ({
+              message: err.message,
+              locations: err.locations,
+              path: err.path,
+              extensions: err.extensions,
+            }))
           );
-        } else {
-          alert(`Error deleting student: ${error.message}`);
         }
+
+        // Provide more specific error messages based on the error type
+        let errorMessage = 'Unknown error occurred';
+
+        if (error.networkError && error.networkError.statusCode === 400) {
+          const networkResult = error.networkError.result;
+          if (
+            networkResult &&
+            networkResult.errors &&
+            networkResult.errors.length > 0
+          ) {
+            errorMessage = networkResult.errors[0].message;
+          } else {
+            errorMessage =
+              'Bad request - the server could not process the delete request';
+          }
+        } else if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+          errorMessage = error.graphQLErrors[0].message;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+
+        console.error('Final error message to display:', errorMessage);
+        alert(`Error deleting student: ${errorMessage}`);
       }
     }
   };
