@@ -68,6 +68,9 @@ const StudentDelete = ({ studentId }) => {
         console.log('Student deleted successfully');
       } catch (error) {
         console.error('Delete error:', error);
+        console.error('Error message:', error.message);
+        console.error('Error details:', error.graphQLErrors);
+        console.error('Network error:', error.networkError);
         alert(`Error deleting student: ${error.message}`);
       }
     }
