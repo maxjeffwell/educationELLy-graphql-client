@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 import { Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
+import Loading from '../Loading';
 
 export const StyledForm = styled(Form)`
   &&&
@@ -44,6 +45,23 @@ const StyledErrorMessage = styled.div`
   }
 `;
 
+const GET_STUDENT_QUERY = gql`
+  query getStudent($id: ID!) {
+    student(id: $id) {
+      _id
+      fullName
+      school
+      teacher
+      gradeLevel
+      nativeLanguage
+      ellStatus
+      compositeLevel
+      designation
+      countryOfBirth
+    }
+  }
+`;
+
 const UPDATE_STUDENT_MUTATION = gql`
   mutation updateStudent($input: UpdateStudentInput!) {
     updateStudent(input: $input) {
@@ -68,14 +86,40 @@ const UpdateStudent = () => {
     school: '',
     teacher: '',
     gradeLevel: '',
+    nativeLanguage: '',
     ellStatus: '',
     compositeLevel: '',
     designation: '',
+    countryOfBirth: '',
   });
 
-  const [updateStudent, { loading, error }] = useMutation(
-    UPDATE_STUDENT_MUTATION
-  );
+  const {
+    data,
+    loading: queryLoading,
+    error: queryError,
+  } = useQuery(GET_STUDENT_QUERY, {
+    variables: { id: studentId },
+    skip: !studentId,
+  });
+
+  const [updateStudent, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_STUDENT_MUTATION);
+
+  useEffect(() => {
+    if (data && data.student) {
+      setFormData({
+        fullName: data.student.fullName || '',
+        school: data.student.school || '',
+        teacher: data.student.teacher || '',
+        gradeLevel: data.student.gradeLevel || '',
+        nativeLanguage: data.student.nativeLanguage || '',
+        ellStatus: data.student.ellStatus || '',
+        compositeLevel: data.student.compositeLevel || '',
+        designation: data.student.designation || '',
+        countryOfBirth: data.student.countryOfBirth || '',
+      });
+    }
+  }, [data]);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -98,6 +142,9 @@ const UpdateStudent = () => {
       // Handle error silently or show user notification
     }
   };
+
+  if (queryLoading) return <Loading />;
+  if (queryError) return <ErrorMessage error={queryError} />;
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -156,6 +203,15 @@ const UpdateStudent = () => {
       />
 
       <Form.Input
+        name="nativeLanguage"
+        icon="world"
+        iconPosition="left"
+        placeholder="Native Language"
+        value={formData.nativeLanguage}
+        onChange={handleChange}
+      />
+
+      <Form.Input
         name="designation"
         icon="certificate"
         iconPosition="left"
@@ -164,12 +220,21 @@ const UpdateStudent = () => {
         onChange={handleChange}
       />
 
-      <Button type="submit" primary loading={loading}>
-        {loading ? 'Updating...' : 'Update Student'}
+      <Form.Input
+        name="countryOfBirth"
+        icon="globe"
+        iconPosition="left"
+        placeholder="Country of Birth"
+        value={formData.countryOfBirth}
+        onChange={handleChange}
+      />
+
+      <Button type="submit" primary loading={mutationLoading}>
+        {mutationLoading ? 'Updating...' : 'Update Student'}
       </Button>
 
       <StyledErrorMessage>
-        {error && <ErrorMessage error={error} />}
+        {mutationError && <ErrorMessage error={mutationError} />}
       </StyledErrorMessage>
     </StyledForm>
   );
