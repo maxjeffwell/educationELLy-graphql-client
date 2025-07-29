@@ -127,7 +127,25 @@ const StudentDelete = ({ studentId }) => {
             networkResult.errors &&
             networkResult.errors.length > 0
           ) {
-            errorMessage = networkResult.errors[0].message;
+            const serverError = networkResult.errors[0];
+            errorMessage = serverError.message;
+
+            // Handle internal server errors with more helpful messaging
+            if (serverError.message === 'Internal server error') {
+              console.error('Internal server error details:', {
+                studentId: studentId,
+                errorCode: serverError.extensions?.code,
+                fullError: serverError,
+              });
+
+              errorMessage =
+                'Server error occurred while deleting student. This could be due to:\n' +
+                '• Student not found in the database\n' +
+                '• Student is referenced by other records (courses, grades, etc.)\n' +
+                '• Database connection issues\n' +
+                '• Invalid student ID format\n\n' +
+                'Please check the browser console for detailed error information and try again.';
+            }
           } else {
             errorMessage =
               'Bad request - the server could not process the delete request';
