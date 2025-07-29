@@ -26,7 +26,11 @@ import 'semantic-ui-css/components/sidebar.css';
 
 import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
-import { signOut } from './components/SignOut';
+const signOutOnError = client => {
+  sessionStorage.removeItem('token');
+  client.resetStore();
+  window.location.href = '/signin';
+};
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_API_BASE_URL,
@@ -47,14 +51,14 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message }) => {
       if (message === 'You are not authenticated. Please sign in.') {
-        signOut(client);
+        signOutOnError(client);
       }
     });
   }
 
   if (networkError) {
     if (networkError.statusCode === 401 || networkError.statusCode === 400) {
-      signOut(client);
+      signOutOnError(client);
     }
   }
 });
