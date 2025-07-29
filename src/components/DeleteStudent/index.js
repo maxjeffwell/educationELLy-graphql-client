@@ -20,7 +20,7 @@ const StyledDeleteButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  min-width: 140px;
+  width: 150px;
   justify-content: center;
   box-sizing: border-box;
 
