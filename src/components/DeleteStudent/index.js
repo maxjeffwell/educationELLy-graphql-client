@@ -60,9 +60,23 @@ const StudentDelete = ({ studentId }) => {
   });
 
   const handleDelete = async () => {
+    // Validate student ID
+    if (
+      !studentId ||
+      typeof studentId !== 'string' ||
+      studentId.trim() === ''
+    ) {
+      alert('Invalid student ID. Cannot delete student.');
+      console.error('Invalid student ID:', studentId);
+      return;
+    }
+
     if (window.confirm('Are you sure you want to delete this student?')) {
       console.log('Attempting to delete student with ID:', studentId);
+      console.log('Student ID type:', typeof studentId);
+      console.log('Student ID length:', studentId.length);
       console.log('Variables being sent:', { _id: studentId });
+
       try {
         const result = await deleteStudent({
           variables: {
@@ -77,11 +91,24 @@ const StudentDelete = ({ studentId }) => {
         console.error('Error message:', error.message);
         console.error('Error details:', error.graphQLErrors);
         console.error('Network error:', error.networkError);
+
         if (error.networkError) {
           console.error('Network error status:', error.networkError.statusCode);
           console.error('Network error response:', error.networkError.result);
         }
-        alert(`Error deleting student: ${error.message}`);
+
+        // Handle specific error cases
+        if (error.message.includes('Internal server error')) {
+          alert(
+            'Server error occurred while deleting student. This may be due to:\n' +
+              '- Student not found in database\n' +
+              '- Student referenced by other records\n' +
+              '- Database connectivity issues\n\n' +
+              'Please try again later or contact support.'
+          );
+        } else {
+          alert(`Error deleting student: ${error.message}`);
+        }
       }
     }
   };
