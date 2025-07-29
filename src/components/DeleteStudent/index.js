@@ -42,9 +42,7 @@ const StyledDeleteButton = styled.button`
 
 const DELETE_STUDENT_MUTATION = gql`
   mutation deleteStudent($_id: ID!) {
-    deleteStudent(_id: $_id) {
-      _id
-    }
+    deleteStudent(_id: $_id)
   }
 `;
 
@@ -52,10 +50,7 @@ const StudentDelete = ({ studentId }) => {
   const [deleteStudent, { loading }] = useMutation(DELETE_STUDENT_MUTATION, {
     refetchQueries: [{ query: GET_ALL_STUDENTS_QUERY }],
     optimisticResponse: {
-      deleteStudent: {
-        _id: studentId,
-        __typename: 'Student',
-      },
+      deleteStudent: true,
     },
   });
 
