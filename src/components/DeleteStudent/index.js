@@ -1,8 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useMutation, gql } from '@apollo/client';
+import { Icon } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import { GET_ALL_STUDENTS_QUERY } from '../Students';
+
+const StyledDeleteButton = styled.button`
+  color: ${props => props.theme.green};
+  font-family: 'Roboto', 'sans-serif';
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid ${props => props.theme.green};
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  &:hover {
+    background: ${props => props.theme.green};
+    color: ${props => props.theme.white};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
 
 const DELETE_STUDENT_MUTATION = gql`
   mutation ($_id: ID!) {
@@ -36,9 +64,10 @@ const StudentDelete = ({ studentId }) => {
   };
 
   return (
-    <button onClick={handleDelete} disabled={loading}>
+    <StyledDeleteButton onClick={handleDelete} disabled={loading}>
+      <Icon name="trash" />
       {loading ? 'Deleting...' : 'Delete Student'}
-    </button>
+    </StyledDeleteButton>
   );
 };
 
