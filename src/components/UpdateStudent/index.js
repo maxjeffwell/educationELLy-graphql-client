@@ -130,16 +130,19 @@ const UpdateStudent = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      await updateStudent({
+      const result = await updateStudent({
         variables: {
           _id: studentId,
           input: formData,
         },
       });
+      console.log('Update result:', result);
       alert('Student updated successfully!');
+      console.log('Navigating to /students...');
       navigate('/students');
     } catch (err) {
-      // Handle error silently or show user notification
+      console.error('Update error:', err);
+      alert('Error updating student: ' + err.message);
     }
   };
 
