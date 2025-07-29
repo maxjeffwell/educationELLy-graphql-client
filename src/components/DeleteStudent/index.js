@@ -20,6 +20,9 @@ const StyledDeleteButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  min-width: 140px;
+  justify-content: center;
+  box-sizing: border-box;
 
   &:hover {
     background: ${props => props.theme.green};

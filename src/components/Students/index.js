@@ -138,6 +138,12 @@ const StyledCard = styled(Card)`
     padding: 8px 15px;
     border-radius: 5px;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 140px;
+    justify-content: center;
+    box-sizing: border-box;
   }
   &&& .extra a:hover {
     background: ${props => props.theme.green};
