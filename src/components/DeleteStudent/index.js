@@ -41,7 +41,7 @@ const StyledDeleteButton = styled.button`
 `;
 
 const DELETE_STUDENT_MUTATION = gql`
-  mutation deleteStudent($_id: ID!) {
+  mutation ($_id: ID!) {
     deleteStudent(_id: $_id) {
       _id
     }
