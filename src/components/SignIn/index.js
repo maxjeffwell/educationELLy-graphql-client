@@ -105,8 +105,14 @@ const StyledForm = styled(Form)`
 const StyledError = styled.div`
   &&& {
     font-family: 'Roboto', 'sans-serif';
-    font-size: 1.5em;
-    color: ${props => props.theme.blue};
+    font-size: 1.2em;
+    color: #d32f2f;
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    line-height: 1.4;
   }
 `;
 
