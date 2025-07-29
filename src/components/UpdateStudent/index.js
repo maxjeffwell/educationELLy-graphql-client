@@ -63,8 +63,8 @@ const GET_STUDENT_QUERY = gql`
 `;
 
 const UPDATE_STUDENT_MUTATION = gql`
-  mutation updateStudent($input: UpdateStudentInput!) {
-    updateStudent(input: $input) {
+  mutation updateStudent($_id: ID!, $input: UpdateStudentInput!) {
+    updateStudent(_id: $_id, input: $input) {
       _id
       fullName
       school
@@ -131,10 +131,8 @@ const UpdateStudent = () => {
     try {
       await updateStudent({
         variables: {
-          input: {
-            _id: studentId,
-            ...formData,
-          },
+          _id: studentId,
+          input: formData,
         },
       });
       alert('Student updated successfully!');
