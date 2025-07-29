@@ -10,9 +10,10 @@ const StyledMenu = styled(Menu)`
     border: 2px solid ${props => props.theme.orange};
     border-radius: 5px;
     margin-bottom: 25px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     min-width: 320px;
     height: auto;
+    overflow-x: auto;
   }
   &&& .header {
     background: ${props => props.theme.green};
@@ -22,15 +23,31 @@ const StyledMenu = styled(Menu)`
     position: absolute;
   }
   &&& a.item {
-    font-size: 2em;
+    font-size: 1.2em;
     font-weight: bold;
     font-family: 'Roboto', 'sans-serif';
     color: ${props => props.theme.green};
     text-align: center;
+    white-space: nowrap;
+    padding: 0.5em 0.8em !important;
   }
   &&& header.item {
     background-color: ${props => props.theme.green};
     width: 75px;
+  }
+
+  @media (max-width: 768px) {
+    &&& a.item {
+      font-size: 1em;
+      padding: 0.4em 0.6em !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &&& a.item {
+      font-size: 0.9em;
+      padding: 0.3em 0.4em !important;
+    }
   }
 `;
 
@@ -46,7 +63,7 @@ const Header = ({ session }) => (
       {session && session.me && (
         <>
           <Menu.Item as={Link} name="Dashboard" to="/dashboard">
-            Teacher Dashboard ({session.me.email})
+            Dashboard
           </Menu.Item>
           <Menu.Item as={Link} name="Students" to="/students">
             Student List
