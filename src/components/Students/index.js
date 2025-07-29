@@ -142,8 +142,10 @@ const StyledCard = styled(Card)`
     align-items: center;
     gap: 5px;
     width: 150px;
+    height: 44px;
     justify-content: center;
     box-sizing: border-box;
+    white-space: nowrap;
   }
   &&& .extra a:hover {
     background: ${props => props.theme.green};
