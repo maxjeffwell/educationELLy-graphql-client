@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, gql } from '@apollo/client';
 import { Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -81,6 +81,7 @@ const UPDATE_STUDENT_MUTATION = gql`
 
 const UpdateStudent = () => {
   const { studentId } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     school: '',
@@ -136,6 +137,7 @@ const UpdateStudent = () => {
         },
       });
       alert('Student updated successfully!');
+      navigate('/students');
     } catch (err) {
       // Handle error silently or show user notification
     }

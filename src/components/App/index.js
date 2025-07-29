@@ -18,19 +18,12 @@ import withSession from '../Session/withSession';
 
 WebFont.load({
   google: {
-    families: ['Roboto: 400', 'sans-serif'],
+    families: ['Roboto: 400', 'Arimo: 400,700', 'sans-serif'],
   },
   timeout: 2000,
 });
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    src: url('https://fonts.googleapis.com/css?family=Roboto');
-  }
-
 html {
   box-sizing: border-box;
   font-size: 14px;

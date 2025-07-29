@@ -124,7 +124,10 @@ const CreateStudent = () => {
         variables: { input: formData },
       });
       setFormData(INITIAL_STATE);
-      navigate('/students');
+      alert('Student created successfully!');
+      setTimeout(() => {
+        navigate('/students');
+      }, 500);
     } catch (error) {
       // Handle error silently or show user notification
     }
