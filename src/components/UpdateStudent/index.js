@@ -46,8 +46,8 @@ const StyledErrorMessage = styled.div`
 `;
 
 const GET_STUDENT_QUERY = gql`
-  query getStudent($id: ID!) {
-    student(id: $id) {
+  query getStudent($_id: ID!) {
+    student(_id: $_id) {
       _id
       fullName
       school
@@ -98,7 +98,7 @@ const UpdateStudent = () => {
     loading: queryLoading,
     error: queryError,
   } = useQuery(GET_STUDENT_QUERY, {
-    variables: { id: studentId },
+    variables: { _id: studentId },
     skip: !studentId,
   });
 
@@ -132,7 +132,7 @@ const UpdateStudent = () => {
       await updateStudent({
         variables: {
           input: {
-            id: studentId,
+            _id: studentId,
             ...formData,
           },
         },
