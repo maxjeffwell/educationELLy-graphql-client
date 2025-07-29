@@ -57,8 +57,24 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 
   if (networkError) {
-    if (networkError.statusCode === 401 || networkError.statusCode === 400) {
+    if (networkError.statusCode === 401) {
       signOutOnError(client);
+    }
+
+    // Only logout on 400 errors that are authentication-related
+    if (networkError.statusCode === 400) {
+      const errorMessage = networkError.result?.errors?.[0]?.message || '';
+      const isAuthError =
+        errorMessage.includes('token') ||
+        errorMessage.includes('authentication') ||
+        errorMessage.includes('unauthorized') ||
+        errorMessage.includes('expired') ||
+        errorMessage.includes('invalid') ||
+        errorMessage.includes('session');
+
+      if (isAuthError) {
+        signOutOnError(client);
+      }
     }
   }
 });
