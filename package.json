@@ -12,13 +12,14 @@
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.28.0",
     "react-scripts": "^5.0.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.5",
+    "serve": "^14.2.3",
     "styled-components": "^4.4.0",
-    "webfontloader": "^1.6.28",
-    "serve": "^14.2.3"
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-scripts start",

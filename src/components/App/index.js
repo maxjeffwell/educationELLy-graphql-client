@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'semantic-ui-react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
+import { HelmetProvider } from 'react-helmet-async';
 import WebFont from 'webfontloader';
 
 import Header from '../Header';
@@ -43,22 +44,27 @@ body {
 `;
 
 const App = ({ session, refetch }) => (
-  <BrowserRouter>
-    <Container>
-      <GlobalStyle />
-      <Header session={session} />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
-        <Route path="/student/update/:studentId" element={<UpdateStudent />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/signin" element={<SignInPage refetch={refetch} />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/student/new" element={<CreateStudent />} />
-        <Route path="/signout" element={<SignOut />} />
-      </Routes>
-    </Container>
-  </BrowserRouter>
+  <HelmetProvider>
+    <BrowserRouter>
+      <Container>
+        <GlobalStyle />
+        <Header session={session} />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
+          <Route
+            path="/student/update/:studentId"
+            element={<UpdateStudent />}
+          />
+          <Route path="/students" element={<Students />} />
+          <Route path="/signin" element={<SignInPage refetch={refetch} />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/student/new" element={<CreateStudent />} />
+          <Route path="/signout" element={<SignOut />} />
+        </Routes>
+      </Container>
+    </BrowserRouter>
+  </HelmetProvider>
 );
 
 App.propTypes = {

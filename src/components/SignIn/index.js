@@ -13,6 +13,7 @@ import {
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
+import SEOHead from '../SEO/SEOHead';
 
 export const StyledMessage = styled(Message)`
   &&& {
