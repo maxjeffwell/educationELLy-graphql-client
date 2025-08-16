@@ -582,8 +582,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
   </a>
 </p>
 
-<p align="center">
-  <em style="color: #fb9438;">Built with ❤️ for educators everywhere</em>
-</p>
 
 </div>
