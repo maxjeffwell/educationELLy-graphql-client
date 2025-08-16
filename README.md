@@ -22,6 +22,7 @@
 ## Table of Contents
 
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Technology Stack](#technology-stack)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -77,6 +78,72 @@
 </td>
 </tr>
 </table>
+
+## 📸 Screenshots
+
+### User Interface Overview
+
+<div align="center">
+
+#### Landing Page & Registration
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/Screen Shot 2025-08-16 at 06.11.10.png" alt="Landing Page" width="100%"/>
+<p><strong>Landing Page</strong><br/>
+Clean welcome interface showcasing key features and navigation options with demo account information</p>
+</td>
+<td width="50%">
+<img src="screenshots/Screen Shot 2025-08-16 at 06.11.19.png" alt="Registration Page" width="100%"/>
+<p><strong>User Registration</strong><br/>
+Simple registration form with email and password fields, plus demo account availability notice</p>
+</td>
+</tr>
+</table>
+
+#### Authentication & Login
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/Screen Shot 2025-08-16 at 06.11.23.png" alt="Login Page" width="100%"/>
+<p><strong>Login Page</strong><br/>
+User authentication interface with demo credentials displayed for easy testing</p>
+</td>
+<td width="50%">
+<img src="screenshots/Screen Shot 2025-08-16 at 06.13.42.png" alt="Logout Confirmation" width="100%"/>
+<p><strong>Logout Confirmation</strong><br/>
+Clean logout confirmation with navigation breadcrumbs and return to login option</p>
+</td>
+</tr>
+</table>
+
+#### Student Management
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/Screen Shot 2025-08-16 at 06.13.07.png" alt="Student Details" width="100%"/>
+<p><strong>Student Profile View</strong><br/>
+Comprehensive student information display with ELL status, demographics, and management actions</p>
+</td>
+<td width="50%">
+<img src="screenshots/Screen Shot 2025-08-16 at 06.13.32.png" alt="Create Student Form" width="100%"/>
+<p><strong>Add New Student</strong><br/>
+Intuitive form for creating new student records with all essential academic and personal information</p>
+</td>
+</tr>
+</table>
+
+</div>
+
+### Key UI Features Demonstrated
+
+- **🎨 Consistent Theming**: Orange, blue, and green color scheme throughout the application
+- **📱 Responsive Design**: Clean layout that works across different screen sizes
+- **🔍 Search Functionality**: Student search capabilities in the main dashboard
+- **👥 Student Management**: Complete CRUD operations for student records
+- **🔐 Authentication Flow**: Secure login/logout with demo account support
+- **📊 Data Display**: Well-organized student information with ELL tracking
+- **✨ User Experience**: Intuitive navigation and clear action buttons
 
 ## 🛠️ Technology Stack
 
