@@ -15,7 +15,7 @@ import SignOut from '../SignOut';
 import Students from '../Students';
 import UpdateStudent from '../UpdateStudent';
 import CreateStudent from '../CreateStudent';
-import withSession from '../Session/withSession';
+import useSession from '../Session/useSession';
 
 WebFont.load({
   google: {
@@ -43,37 +43,32 @@ body {
 	}
 `;
 
-const App = ({ session, refetch }) => (
-  <HelmetProvider>
-    <BrowserRouter>
-      <Container>
-        <GlobalStyle />
-        <Header session={session} />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
-          <Route
-            path="/student/update/:studentId"
-            element={<UpdateStudent />}
-          />
-          <Route path="/students" element={<Students />} />
-          <Route path="/signin" element={<SignInPage refetch={refetch} />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/student/new" element={<CreateStudent />} />
-          <Route path="/signout" element={<SignOut />} />
-        </Routes>
-      </Container>
-    </BrowserRouter>
-  </HelmetProvider>
-);
+const App = () => {
+  const { session, refetch } = useSession();
 
-App.propTypes = {
-  session: PropTypes.shape({
-    me: PropTypes.shape({
-      username: PropTypes.string,
-    }),
-  }),
-  refetch: PropTypes.func,
+  return (
+    <HelmetProvider>
+      <BrowserRouter>
+        <Container>
+          <GlobalStyle />
+          <Header session={session} />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signup" element={<SignUpPage refetch={refetch} />} />
+            <Route
+              path="/student/update/:studentId"
+              element={<UpdateStudent />}
+            />
+            <Route path="/students" element={<Students />} />
+            <Route path="/signin" element={<SignInPage refetch={refetch} />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/student/new" element={<CreateStudent />} />
+            <Route path="/signout" element={<SignOut />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </HelmetProvider>
+  );
 };
 
-export default withSession(App);
+export default App;
