@@ -17,6 +17,9 @@ COPY . .
 ARG REACT_APP_API_BASE_URL
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
+# Remove .env to prevent overriding build arg (Heroku uses .env, K8s uses build arg)
+RUN rm -f .env
+
 # Disable ESLint warnings as errors (CI=false prevents treating warnings as errors)
 ENV CI=false
 ENV DISABLE_ESLINT_PLUGIN=true
