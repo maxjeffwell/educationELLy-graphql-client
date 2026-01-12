@@ -27,7 +27,27 @@ ENV DISABLE_ESLINT_PLUGIN=true
 # Build the application
 RUN npm run build
 
-# Production stage - using nginx
+# Development stage (use --target development to build this)
+FROM node:18-alpine AS development
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose port 3000 (React dev server)
+EXPOSE 3000
+
+# Start with React development server
+CMD ["npm", "start"]
+
+# Production stage - DEFAULT (last stage)
 FROM nginx:alpine AS production
 
 # Copy custom nginx config
@@ -60,23 +80,3 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-# Development stage
-FROM node:18-alpine AS development
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install all dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Expose port 3000 (React dev server)
-EXPOSE 3000
-
-# Start with React development server
-CMD ["npm", "start"]
