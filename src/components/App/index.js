@@ -16,6 +16,7 @@ import Students from '../Students';
 import UpdateStudent from '../UpdateStudent';
 import CreateStudent from '../CreateStudent';
 import useSession from '../Session/useSession';
+import { ChatBubble } from '../AIChat';
 
 WebFont.load({
   google: {
@@ -49,8 +50,8 @@ const App = () => {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <GlobalStyle />
         <Container>
-          <GlobalStyle />
           <Header session={session} />
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -66,6 +67,7 @@ const App = () => {
             <Route path="/signout" element={<SignOut />} />
           </Routes>
         </Container>
+        <ChatBubble />
       </BrowserRouter>
     </HelmetProvider>
   );
