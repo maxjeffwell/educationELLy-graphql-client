@@ -33,7 +33,7 @@ const Index = () => {
             <Grid.Column mobile={16}>
               <StyledHeader as="h3" inverted>
                 <Header.Content>
-                  Copyright &copy; 2025 educationELLy
+                  Copyright &copy; 2026 educationELLy
                   <Header.Subheader></Header.Subheader>
                 </Header.Content>
               </StyledHeader>

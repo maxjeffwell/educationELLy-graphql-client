@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
+import useSession from '../Session/useSession';
+
 import {
   ChatBubbleButton,
   ChatWindowContainer,
@@ -28,6 +30,7 @@ const CHAT_MUTATION = gql`
 `;
 
 const ChatBubble = () => {
+  const { session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -56,6 +59,11 @@ const ChatBubble = () => {
       inputRef.current?.focus();
     }
   }, [isOpen]);
+
+  // Only show chat bubble when authenticated (must be after all hooks)
+  if (!session?.me) {
+    return null;
+  }
 
   const toggleChat = () => {
     setIsOpen(prev => !prev);
