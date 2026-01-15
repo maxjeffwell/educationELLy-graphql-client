@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -20,29 +20,26 @@ const CenteredContainer = styled.div`
   margin-top: 20px;
 `;
 
-export const signOut = (client, navigate) => {
-  sessionStorage.removeItem('token');
-  client.resetStore();
-  navigate('/signin');
-};
-
-const SignOutButton = () => {
+const SignOut = () => {
   const client = useApolloClient();
   const navigate = useNavigate();
+
+  // Clear session immediately on mount
+  useEffect(() => {
+    sessionStorage.removeItem('token');
+    client.resetStore();
+  }, [client]);
+
   return (
-    <StyledButton type="button" onClick={() => signOut(client, navigate)}>
-      Return to Login Page
-    </StyledButton>
+    <Fragment>
+      <StyledMessage success>You have successfully logged out.</StyledMessage>
+      <CenteredContainer>
+        <StyledButton type="button" onClick={() => navigate('/signin')}>
+          Return to Login Page
+        </StyledButton>
+      </CenteredContainer>
+    </Fragment>
   );
 };
-
-const SignOut = () => (
-  <Fragment>
-    <StyledMessage success>You have successfully logged out.</StyledMessage>
-    <CenteredContainer>
-      <SignOutButton />
-    </CenteredContainer>
-  </Fragment>
-);
 
 export default SignOut;
