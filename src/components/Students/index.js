@@ -266,8 +266,8 @@ const Students = React.memo(() => {
                   mobile={16}
                   tablet={8}
                   computer={5}
-                  largeScreen={4}
-                  widescreen={3}
+                  largeScreen={5}
+                  widescreen={5}
                   key={student._id}
                 >
                   <StyledCard className="student-card">
