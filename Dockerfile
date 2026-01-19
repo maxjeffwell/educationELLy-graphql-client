@@ -6,9 +6,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci && \
-    npm cache clean --force
+# Install dependencies (BuildKit cache speeds up repeated builds)
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 # Copy source code
 COPY . .
@@ -56,12 +56,10 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy built assets from builder
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Create non-root user
+# Create non-root user and set ownership
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-# Set ownership
-RUN chown -R nodejs:nodejs /usr/share/nginx/html && \
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /usr/share/nginx/html && \
     chown -R nodejs:nodejs /var/cache/nginx && \
     chown -R nodejs:nodejs /var/log/nginx && \
     chown -R nodejs:nodejs /etc/nginx/conf.d && \
