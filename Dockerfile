@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -28,7 +28,7 @@ ENV DISABLE_ESLINT_PLUGIN=true
 RUN npm run build
 
 # Development stage (use --target development to build this)
-FROM node:18-alpine AS development
+FROM node:20-alpine AS development
 
 WORKDIR /app
 
