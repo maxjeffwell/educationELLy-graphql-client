@@ -120,7 +120,11 @@ const StyledError = styled.div`
 const SIGN_IN = gql`
   mutation ($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
-      token
+      success
+      user {
+        _id
+        email
+      }
     }
   }
 `;
@@ -152,10 +156,12 @@ const SignInForm = ({ navigate, refetch }) => {
     event.preventDefault();
     try {
       const { data } = await signIn({ variables: formData });
-      setFormData(INITIAL_STATE);
-      sessionStorage.setItem('token', data.signIn.token);
-      await refetch();
-      navigate('/dashboard');
+      if (data?.signIn?.success) {
+        setFormData(INITIAL_STATE);
+        // Cookie is set automatically by server - just refetch and navigate
+        await refetch();
+        navigate('/dashboard');
+      }
     } catch (err) {
       // Handle error silently or show user notification
     }

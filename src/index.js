@@ -7,7 +7,6 @@ import {
   createHttpLink,
   from,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { ThemeProvider } from 'styled-components';
 
@@ -26,31 +25,29 @@ import 'semantic-ui-css/components/sidebar.css';
 
 import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
-const signOutOnError = client => {
-  sessionStorage.removeItem('token');
-  client.resetStore();
+
+// Handle authentication errors by redirecting to sign in
+const signOutOnError = apolloClient => {
+  // Clear Apollo cache and redirect to sign in page
+  apolloClient.resetStore();
   window.location.href = '/signin';
 };
 
+// HTTP link with credentials for httpOnly cookie authentication
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_API_BASE_URL,
+  credentials: 'include', // Send httpOnly cookies with requests
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = sessionStorage.getItem('token');
-
-  return {
-    headers: {
-      ...headers,
-      ...(token && { 'x-token': token }),
-    },
-  };
-});
-
+// Error handling link - handles auth errors and network issues
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message }) => {
-      if (message === 'You are not authenticated. Please sign in.') {
+    graphQLErrors.forEach(({ message, extensions }) => {
+      // Handle authentication errors
+      if (
+        extensions?.code === 'UNAUTHENTICATED' ||
+        message === 'Your session has expired. Please sign in again.'
+      ) {
         signOutOnError(client);
       }
     });
@@ -60,26 +57,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (networkError.statusCode === 401) {
       signOutOnError(client);
     }
-
-    // Only logout on 400 errors that are authentication-related
-    if (networkError.statusCode === 400) {
-      const errorMessage = networkError.result?.errors?.[0]?.message || '';
-      const isAuthError =
-        errorMessage.includes('token') ||
-        errorMessage.includes('authentication') ||
-        errorMessage.includes('unauthorized') ||
-        errorMessage.includes('expired') ||
-        errorMessage.includes('invalid') ||
-        errorMessage.includes('session');
-
-      if (isAuthError) {
-        signOutOnError(client);
-      }
-    }
   }
 });
 
-const link = from([authLink, errorLink, httpLink]);
+const link = from([errorLink, httpLink]);
 
 const cache = new InMemoryCache();
 

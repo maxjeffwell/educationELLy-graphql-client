@@ -107,7 +107,11 @@ const StyledMessage = styled(Message)`
 const SIGN_UP = gql`
   mutation ($email: String!, $password: String!) {
     signUp(email: $email, password: $password) {
-      token
+      success
+      user {
+        _id
+        email
+      }
     }
   }
 `;
@@ -139,10 +143,12 @@ const SignUpForm = ({ navigate, refetch }) => {
     event.preventDefault();
     try {
       const { data } = await signUp({ variables: formData });
-      setFormData(INITIAL_STATE);
-      sessionStorage.setItem('token', data.signUp.token);
-      await refetch();
-      navigate('/dashboard');
+      if (data?.signUp?.success) {
+        setFormData(INITIAL_STATE);
+        // Cookie is set automatically by server - just refetch and navigate
+        await refetch();
+        navigate('/dashboard');
+      }
     } catch (err) {
       // Handle error silently or show user notification
     }

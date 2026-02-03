@@ -1,9 +1,15 @@
 import React, { Fragment, useEffect } from 'react';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { StyledMessage } from '../SignIn';
+
+const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut
+  }
+`;
 
 const StyledButton = styled.button`
   border: 2px solid ${props => props.theme.orange};
@@ -23,12 +29,21 @@ const CenteredContainer = styled.div`
 const SignOut = () => {
   const client = useApolloClient();
   const navigate = useNavigate();
+  const [signOut] = useMutation(SIGN_OUT);
 
-  // Clear session immediately on mount
+  // Clear session immediately on mount by calling server signOut mutation
   useEffect(() => {
-    sessionStorage.removeItem('token');
-    client.resetStore();
-  }, [client]);
+    const performSignOut = async () => {
+      try {
+        await signOut();
+      } catch (err) {
+        // Sign out even if mutation fails (e.g., already signed out)
+      }
+      // Always clear Apollo cache
+      await client.resetStore();
+    };
+    performSignOut();
+  }, [client, signOut]);
 
   return (
     <Fragment>
