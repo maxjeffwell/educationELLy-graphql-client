@@ -7,6 +7,7 @@ import {
   Segment,
   Header,
   Container,
+  Dropdown,
 } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 import styled from 'styled-components';
@@ -93,6 +94,35 @@ const StyledForm = styled(Form)`
   }
 `;
 
+const ellStatusOptions = [
+  { key: 'active', text: 'Active ELL', value: 'ACTIVE_ELL' },
+  { key: 'exited', text: 'Exited', value: 'EXITED' },
+  { key: 'monitoring', text: 'Monitoring', value: 'MONITORING' },
+  { key: 'never', text: 'Never ELL', value: 'NEVER_ELL' },
+  { key: 'refused', text: 'Refused Services', value: 'REFUSED_SERVICES' },
+];
+
+const compositeLevelOptions = [
+  { key: 'beginning', text: 'Beginning', value: 'BEGINNING' },
+  {
+    key: 'earlyIntermediate',
+    text: 'Early Intermediate',
+    value: 'EARLY_INTERMEDIATE',
+  },
+  { key: 'intermediate', text: 'Intermediate', value: 'INTERMEDIATE' },
+  { key: 'earlyAdvanced', text: 'Early Advanced', value: 'EARLY_ADVANCED' },
+  { key: 'advanced', text: 'Advanced', value: 'ADVANCED' },
+  { key: 'proficient', text: 'Proficient', value: 'PROFICIENT' },
+];
+
+const designationOptions = [
+  { key: 'ell', text: 'ELL', value: 'ELL' },
+  { key: 'rfep', text: 'RFEP', value: 'RFEP' },
+  { key: 'ifep', text: 'IFEP', value: 'IFEP' },
+  { key: 'eo', text: 'EO', value: 'EO' },
+  { key: 'tbd', text: 'TBD', value: 'TBD' },
+];
+
 const INITIAL_STATE = {
   fullName: '',
   school: '',
@@ -114,6 +144,10 @@ const CreateStudent = () => {
 
   const handleChange = event => {
     const { name, value } = event.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleDropdownChange = (e, { name, value }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -245,26 +279,30 @@ const CreateStudent = () => {
                     <Grid.Column>
                       <Form.Field>
                         <label htmlFor="ellStatus">ELL Status</label>
-                        <Form.Input
+                        <Dropdown
                           id="ellStatus"
                           name="ellStatus"
-                          type="text"
+                          placeholder="Select ELL Status"
+                          fluid
+                          selection
+                          options={ellStatusOptions}
                           value={formData.ellStatus}
-                          placeholder="Enter current ELL status"
-                          onChange={handleChange}
+                          onChange={handleDropdownChange}
                         />
                       </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
                       <Form.Field>
                         <label htmlFor="compositeLevel">Composite Level</label>
-                        <Form.Input
+                        <Dropdown
                           id="compositeLevel"
                           name="compositeLevel"
-                          type="text"
+                          placeholder="Select Composite Level"
+                          fluid
+                          selection
+                          options={compositeLevelOptions}
                           value={formData.compositeLevel}
-                          placeholder="Enter composite level"
-                          onChange={handleChange}
+                          onChange={handleDropdownChange}
                         />
                       </Form.Field>
                     </Grid.Column>
@@ -274,13 +312,15 @@ const CreateStudent = () => {
                     <Grid.Column>
                       <Form.Field>
                         <label htmlFor="designation">Designation</label>
-                        <Form.Input
+                        <Dropdown
                           id="designation"
                           name="designation"
-                          type="text"
+                          placeholder="Select Designation"
+                          fluid
+                          selection
+                          options={designationOptions}
                           value={formData.designation}
-                          placeholder="Enter current designation"
-                          onChange={handleChange}
+                          onChange={handleDropdownChange}
                         />
                       </Form.Field>
                     </Grid.Column>

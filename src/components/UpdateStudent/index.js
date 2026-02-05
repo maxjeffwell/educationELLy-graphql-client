@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, gql } from '@apollo/client';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Dropdown } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
@@ -61,6 +61,35 @@ const GET_STUDENT_QUERY = gql`
     }
   }
 `;
+
+const ellStatusOptions = [
+  { key: 'active', text: 'Active ELL', value: 'ACTIVE_ELL' },
+  { key: 'exited', text: 'Exited', value: 'EXITED' },
+  { key: 'monitoring', text: 'Monitoring', value: 'MONITORING' },
+  { key: 'never', text: 'Never ELL', value: 'NEVER_ELL' },
+  { key: 'refused', text: 'Refused Services', value: 'REFUSED_SERVICES' },
+];
+
+const compositeLevelOptions = [
+  { key: 'beginning', text: 'Beginning', value: 'BEGINNING' },
+  {
+    key: 'earlyIntermediate',
+    text: 'Early Intermediate',
+    value: 'EARLY_INTERMEDIATE',
+  },
+  { key: 'intermediate', text: 'Intermediate', value: 'INTERMEDIATE' },
+  { key: 'earlyAdvanced', text: 'Early Advanced', value: 'EARLY_ADVANCED' },
+  { key: 'advanced', text: 'Advanced', value: 'ADVANCED' },
+  { key: 'proficient', text: 'Proficient', value: 'PROFICIENT' },
+];
+
+const designationOptions = [
+  { key: 'ell', text: 'ELL', value: 'ELL' },
+  { key: 'rfep', text: 'RFEP', value: 'RFEP' },
+  { key: 'ifep', text: 'IFEP', value: 'IFEP' },
+  { key: 'eo', text: 'EO', value: 'EO' },
+  { key: 'tbd', text: 'TBD', value: 'TBD' },
+];
 
 const UPDATE_STUDENT_MUTATION = gql`
   mutation updateStudent($_id: ID!, $input: UpdateStudentInput!) {
@@ -127,6 +156,10 @@ const UpdateStudent = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleDropdownChange = (e, { name, value }) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async event => {
     event.preventDefault();
     try {
@@ -187,22 +220,24 @@ const UpdateStudent = () => {
         onChange={handleChange}
       />
 
-      <Form.Input
+      <Form.Dropdown
         name="ellStatus"
-        icon="language"
-        iconPosition="left"
-        placeholder="Current ELL Status"
+        placeholder="Select ELL Status"
+        fluid
+        selection
+        options={ellStatusOptions}
         value={formData.ellStatus}
-        onChange={handleChange}
+        onChange={handleDropdownChange}
       />
 
-      <Form.Input
+      <Form.Dropdown
         name="compositeLevel"
-        icon="bullseye"
-        iconPosition="left"
-        placeholder="Composite Level"
+        placeholder="Select Composite Level"
+        fluid
+        selection
+        options={compositeLevelOptions}
         value={formData.compositeLevel}
-        onChange={handleChange}
+        onChange={handleDropdownChange}
       />
 
       <Form.Input
@@ -214,13 +249,14 @@ const UpdateStudent = () => {
         onChange={handleChange}
       />
 
-      <Form.Input
+      <Form.Dropdown
         name="designation"
-        icon="certificate"
-        iconPosition="left"
-        placeholder="Current Designation"
+        placeholder="Select Designation"
+        fluid
+        selection
+        options={designationOptions}
         value={formData.designation}
-        onChange={handleChange}
+        onChange={handleDropdownChange}
       />
 
       <Form.Input
