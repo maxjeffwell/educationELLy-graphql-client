@@ -196,11 +196,11 @@ const Students = React.memo(() => {
   // Filter students based on search term
   const filteredStudents = data.students.filter(
     student =>
-      student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.school.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.teacher.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.gradeLevel.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.ellStatus.toLowerCase().includes(searchTerm.toLowerCase())
+      student.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.school?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.teacher?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.gradeLevel?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.ellStatus?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
