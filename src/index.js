@@ -22,6 +22,9 @@ import 'semantic-ui-css/components/card.css';
 import 'semantic-ui-css/components/menu.css';
 import 'semantic-ui-css/components/input.css';
 import 'semantic-ui-css/components/sidebar.css';
+import 'semantic-ui-css/components/dropdown.css';
+import 'semantic-ui-css/components/transition.css';
+import 'semantic-ui-css/components/label.css';
 
 import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
