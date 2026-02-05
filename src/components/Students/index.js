@@ -88,6 +88,8 @@ const StyledCard = styled(Card)`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     margin-bottom: 20px;
+    overflow: hidden;
+    width: 100%;
   }
   &&&:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -96,6 +98,7 @@ const StyledCard = styled(Card)`
   &&& .content {
     padding: 20px;
     background: ${props => props.theme.white};
+    overflow: hidden;
   }
   &&& .header.student-name {
     color: ${props => props.theme.blue};
@@ -105,6 +108,8 @@ const StyledCard = styled(Card)`
     margin-bottom: 15px;
     border-bottom: 2px solid ${props => props.theme.orange};
     padding-bottom: 8px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   &&& .meta {
     color: ${props => props.theme.blue};
@@ -112,12 +117,18 @@ const StyledCard = styled(Card)`
     font-size: 0.9em;
     margin-bottom: 8px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
   &&& .meta .label {
     font-weight: bold;
-    min-width: 100px;
+    min-width: 90px;
+    flex-shrink: 0;
     color: ${props => props.theme.green};
+  }
+  &&& .meta span:last-child {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-width: 0;
   }
   &&& .extra {
     background: ${props => props.theme.white};
