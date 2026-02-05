@@ -220,25 +220,33 @@ const UpdateStudent = () => {
         onChange={handleChange}
       />
 
-      <Form.Dropdown
-        name="ellStatus"
-        placeholder="Select ELL Status"
-        fluid
-        selection
-        options={ellStatusOptions}
-        value={formData.ellStatus}
-        onChange={handleDropdownChange}
-      />
+      <Form.Field>
+        <label htmlFor="ellStatus">ELL Status</label>
+        <Dropdown
+          id="ellStatus"
+          name="ellStatus"
+          placeholder="Select ELL Status"
+          fluid
+          selection
+          options={ellStatusOptions}
+          value={formData.ellStatus}
+          onChange={handleDropdownChange}
+        />
+      </Form.Field>
 
-      <Form.Dropdown
-        name="compositeLevel"
-        placeholder="Select Composite Level"
-        fluid
-        selection
-        options={compositeLevelOptions}
-        value={formData.compositeLevel}
-        onChange={handleDropdownChange}
-      />
+      <Form.Field>
+        <label htmlFor="compositeLevel">Composite Level</label>
+        <Dropdown
+          id="compositeLevel"
+          name="compositeLevel"
+          placeholder="Select Composite Level"
+          fluid
+          selection
+          options={compositeLevelOptions}
+          value={formData.compositeLevel}
+          onChange={handleDropdownChange}
+        />
+      </Form.Field>
 
       <Form.Input
         name="nativeLanguage"
@@ -249,15 +257,19 @@ const UpdateStudent = () => {
         onChange={handleChange}
       />
 
-      <Form.Dropdown
-        name="designation"
-        placeholder="Select Designation"
-        fluid
-        selection
-        options={designationOptions}
-        value={formData.designation}
-        onChange={handleDropdownChange}
-      />
+      <Form.Field>
+        <label htmlFor="designation">Designation</label>
+        <Dropdown
+          id="designation"
+          name="designation"
+          placeholder="Select Designation"
+          fluid
+          selection
+          options={designationOptions}
+          value={formData.designation}
+          onChange={handleDropdownChange}
+        />
+      </Form.Field>
 
       <Form.Input
         name="countryOfBirth"
