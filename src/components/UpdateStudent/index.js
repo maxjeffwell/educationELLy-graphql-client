@@ -1,34 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, gql } from '@apollo/client';
-import { Form, Button, Dropdown } from 'semantic-ui-react';
+import {
+  Form,
+  Button,
+  Dropdown,
+  Grid,
+  Segment,
+  Header,
+  Container,
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
+import Dashboard from '../Dashboard/index.js';
+
+const StyledContainer = styled(Container)`
+  &&& {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+`;
+
+const StyledSegment = styled(Segment)`
+  &&& {
+    border: 4px solid ${props => props.theme.orange};
+    border-radius: 5px;
+    padding: 30px;
+    background: ${props => props.theme.white};
+    max-width: 800px;
+    margin: 0 auto;
+  }
+`;
+
+const StyledHeader = styled(Header)`
+  &&& {
+    margin-bottom: 30px;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 2.5em;
+    font-weight: bold;
+    color: ${props => props.theme.blue};
+    background: ${props => props.theme.green};
+    border: 4px solid ${props => props.theme.orange};
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+`;
 
 export const StyledForm = styled(Form)`
   &&& .field {
     margin-bottom: 20px;
   }
   &&& .field > label {
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: bold;
     color: ${props => props.theme.blue};
     font-family: 'Roboto', 'sans-serif';
     margin-bottom: 8px;
   }
-  &&& .ui.input > input,
-  &&& .ui.icon.input > input {
+  &&& .ui.input > input {
     border: 3px solid ${props => props.theme.green};
     border-radius: 5px;
     font-size: 1.1em;
     font-family: 'Roboto', 'sans-serif';
     padding: 12px;
-    padding-left: 45px;
-  }
-  &&& .ui.icon.input > i.icon {
-    color: ${props => props.theme.green};
   }
   &&& .ui.selection.dropdown {
     border: 3px solid ${props => props.theme.green};
@@ -51,22 +88,14 @@ export const StyledForm = styled(Form)`
     color: ${props => props.theme.white};
   }
   &&& .ui.button {
-    font-family: 'Roboto', 'sans-serif';
-    font-size: 1.3em;
+    background: ${props => props.theme.blue};
     color: ${props => props.theme.white};
-    background-color: ${props => props.theme.blue};
     border: 2px solid ${props => props.theme.orange};
     border-radius: 5px;
+    font-size: 1.3em;
+    font-family: 'Roboto', 'sans-serif';
     padding: 12px 24px;
     margin-top: 20px;
-  }
-`;
-
-const StyledErrorMessage = styled.div`
-  &&& {
-    font-family: 'Roboto', 'sans-serif';
-    font-size: 1.5em;
-    color: ${props => props.theme.blue};
   }
 `;
 
@@ -188,18 +217,15 @@ const UpdateStudent = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      const result = await updateStudent({
+      await updateStudent({
         variables: {
           _id: studentId,
           input: formData,
         },
       });
-      console.log('Update result:', result);
       alert('Student updated successfully!');
-      console.log('Navigating to /students...');
       navigate('/students');
     } catch (err) {
-      console.error('Update error:', err);
       alert('Error updating student: ' + err.message);
     }
   };
@@ -208,111 +234,181 @@ const UpdateStudent = () => {
   if (queryError) return <ErrorMessage error={queryError} />;
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <Form.Input
-        name="fullName"
-        icon="student"
-        iconPosition="left"
-        placeholder="Student Name"
-        value={formData.fullName}
-        onChange={handleChange}
-      />
+    <>
+      <Dashboard />
+      <StyledContainer>
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 800 }}>
+            <StyledSegment stacked>
+              <StyledHeader as="h1">Edit Student</StyledHeader>
 
-      <Form.Input
-        name="school"
-        icon="university"
-        iconPosition="left"
-        placeholder="School Name"
-        value={formData.school}
-        onChange={handleChange}
-      />
+              <StyledForm onSubmit={handleSubmit}>
+                <Grid stackable>
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="fullName">Student Full Name</label>
+                        <Form.Input
+                          id="fullName"
+                          name="fullName"
+                          type="text"
+                          value={formData.fullName}
+                          placeholder="Enter student's full name"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="school">School Name</label>
+                        <Form.Input
+                          id="school"
+                          name="school"
+                          type="text"
+                          value={formData.school}
+                          placeholder="Enter school name"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <Form.Input
-        name="teacher"
-        icon="user"
-        iconPosition="left"
-        placeholder="Teacher Name"
-        value={formData.teacher}
-        onChange={handleChange}
-      />
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="teacher">Teacher Name</label>
+                        <Form.Input
+                          id="teacher"
+                          name="teacher"
+                          type="text"
+                          value={formData.teacher}
+                          placeholder="Enter teacher's name"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="gradeLevel">Grade Level</label>
+                        <Form.Input
+                          id="gradeLevel"
+                          name="gradeLevel"
+                          type="text"
+                          value={formData.gradeLevel}
+                          placeholder="Enter grade level"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <Form.Input
-        name="gradeLevel"
-        icon="level up"
-        iconPosition="left"
-        placeholder="Grade Level"
-        value={formData.gradeLevel}
-        onChange={handleChange}
-      />
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="nativeLanguage">Native Language</label>
+                        <Form.Input
+                          id="nativeLanguage"
+                          name="nativeLanguage"
+                          type="text"
+                          value={formData.nativeLanguage}
+                          placeholder="Enter native language"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="countryOfBirth">Country of Birth</label>
+                        <Form.Input
+                          id="countryOfBirth"
+                          name="countryOfBirth"
+                          type="text"
+                          value={formData.countryOfBirth}
+                          placeholder="Enter country of birth"
+                          onChange={handleChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <Form.Field>
-        <label htmlFor="ellStatus">ELL Status</label>
-        <Dropdown
-          id="ellStatus"
-          name="ellStatus"
-          placeholder="Select ELL Status"
-          fluid
-          selection
-          options={ellStatusOptions}
-          value={formData.ellStatus}
-          onChange={handleDropdownChange}
-        />
-      </Form.Field>
+                  <Grid.Row columns={2}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="ellStatus">ELL Status</label>
+                        <Dropdown
+                          id="ellStatus"
+                          name="ellStatus"
+                          placeholder="Select ELL Status"
+                          fluid
+                          selection
+                          options={ellStatusOptions}
+                          value={formData.ellStatus}
+                          onChange={handleDropdownChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="compositeLevel">Composite Level</label>
+                        <Dropdown
+                          id="compositeLevel"
+                          name="compositeLevel"
+                          placeholder="Select Composite Level"
+                          fluid
+                          selection
+                          options={compositeLevelOptions}
+                          value={formData.compositeLevel}
+                          onChange={handleDropdownChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
 
-      <Form.Field>
-        <label htmlFor="compositeLevel">Composite Level</label>
-        <Dropdown
-          id="compositeLevel"
-          name="compositeLevel"
-          placeholder="Select Composite Level"
-          fluid
-          selection
-          options={compositeLevelOptions}
-          value={formData.compositeLevel}
-          onChange={handleDropdownChange}
-        />
-      </Form.Field>
+                  <Grid.Row columns={1}>
+                    <Grid.Column>
+                      <Form.Field>
+                        <label htmlFor="designation">Designation</label>
+                        <Dropdown
+                          id="designation"
+                          name="designation"
+                          placeholder="Select Designation"
+                          fluid
+                          selection
+                          options={designationOptions}
+                          value={formData.designation}
+                          onChange={handleDropdownChange}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
 
-      <Form.Input
-        name="nativeLanguage"
-        icon="world"
-        iconPosition="left"
-        placeholder="Native Language"
-        value={formData.nativeLanguage}
-        onChange={handleChange}
-      />
+                <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                  <Button
+                    type="submit"
+                    disabled={mutationLoading}
+                    primary
+                    size="large"
+                  >
+                    {mutationLoading ? 'Updating...' : 'Update Student'}
+                  </Button>
+                </div>
 
-      <Form.Field>
-        <label htmlFor="designation">Designation</label>
-        <Dropdown
-          id="designation"
-          name="designation"
-          placeholder="Select Designation"
-          fluid
-          selection
-          options={designationOptions}
-          value={formData.designation}
-          onChange={handleDropdownChange}
-        />
-      </Form.Field>
-
-      <Form.Input
-        name="countryOfBirth"
-        icon="globe"
-        iconPosition="left"
-        placeholder="Country of Birth"
-        value={formData.countryOfBirth}
-        onChange={handleChange}
-      />
-
-      <Button type="submit" primary loading={mutationLoading}>
-        {mutationLoading ? 'Updating...' : 'Update Student'}
-      </Button>
-
-      <StyledErrorMessage>
-        {mutationError && <ErrorMessage error={mutationError} />}
-      </StyledErrorMessage>
-    </StyledForm>
+                {mutationError && (
+                  <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                    <ErrorMessage error={mutationError} />
+                  </div>
+                )}
+              </StyledForm>
+            </StyledSegment>
+          </Grid.Column>
+        </Grid>
+      </StyledContainer>
+    </>
   );
 };
 
