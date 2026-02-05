@@ -82,6 +82,26 @@ const StyledForm = styled(Form)`
     font-family: 'Roboto', 'sans-serif';
     padding: 12px;
   }
+  &&& .ui.selection.dropdown {
+    border: 3px solid ${props => props.theme.green};
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px;
+    min-height: 48px;
+  }
+  &&& .ui.selection.dropdown .menu {
+    border: 2px solid ${props => props.theme.green};
+    border-radius: 5px;
+  }
+  &&& .ui.selection.dropdown .menu > .item {
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px !important;
+  }
+  &&& .ui.selection.dropdown .menu > .item:hover {
+    background: ${props => props.theme.green};
+    color: ${props => props.theme.white};
+  }
   &&& .ui.button {
     background: ${props => props.theme.blue};
     color: ${props => props.theme.white};

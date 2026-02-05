@@ -8,32 +8,57 @@ import ErrorMessage from '../Error';
 import Loading from '../Loading';
 
 export const StyledForm = styled(Form)`
-  &&&
-    .ui.labeled.input:not([class*='corner labeled'])
-    .label:first-child
-    + input {
-    font-family: 'Roboto', 'sans-serif';
-    font-size: 2em;
-    font-weight: 700;
+  &&& .field {
+    margin-bottom: 20px;
+  }
+  &&& .field > label {
+    font-size: 1.1em;
+    font-weight: bold;
     color: ${props => props.theme.blue};
-    padding: 5px 5px 5px 10px;
-    background-color: ${props => props.theme.white};
-    border-top: 2px solid ${props => props.theme.green};
-    border-right: 2px solid ${props => props.theme.green};
-    border-bottom: 2px solid ${props => props.theme.green};
-    border-left: 2px solid ${props => props.theme.green};
+    font-family: 'Roboto', 'sans-serif';
+    margin-bottom: 8px;
+  }
+  &&& .ui.input > input,
+  &&& .ui.icon.input > input {
+    border: 3px solid ${props => props.theme.green};
     border-radius: 5px;
-    width: 50px;
-    text-align: center;
+    font-size: 1.1em;
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px;
+    padding-left: 45px;
+  }
+  &&& .ui.icon.input > i.icon {
+    color: ${props => props.theme.green};
+  }
+  &&& .ui.selection.dropdown {
+    border: 3px solid ${props => props.theme.green};
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px;
+    min-height: 48px;
+  }
+  &&& .ui.selection.dropdown .menu {
+    border: 2px solid ${props => props.theme.green};
+    border-radius: 5px;
+  }
+  &&& .ui.selection.dropdown .menu > .item {
+    font-family: 'Roboto', 'sans-serif';
+    padding: 12px !important;
+  }
+  &&& .ui.selection.dropdown .menu > .item:hover {
+    background: ${props => props.theme.green};
+    color: ${props => props.theme.white};
   }
   &&& .ui.button {
     font-family: 'Roboto', 'sans-serif';
-    font-size: 2em;
+    font-size: 1.3em;
     color: ${props => props.theme.white};
     background-color: ${props => props.theme.blue};
     border: 2px solid ${props => props.theme.orange};
     border-radius: 5px;
-    padding: 10px;
+    padding: 12px 24px;
+    margin-top: 20px;
   }
 `;
 
